@@ -7,6 +7,9 @@ ENT.AdminOnly = false
 ENT.Category = "MDisasters"
 
 function ENT:Initialize()
+
+    self:SpawnSnowground()
+
     if SERVER then
         mdisasters.weather_target.Wind_dir = Vector(math.random(-1000,1000), math.random(-1000,1000),0)
         mdisasters.weather_target.Wind_speed = math.random(5, 15)
@@ -38,8 +41,6 @@ function ENT:Initialize()
 				paintSky_Fade(self.Original_SkyData, 0.05)
 			end)
 		end 
-        
-        self:SpawnSnowground()
 
         setMapLight("d")
 
@@ -47,7 +48,35 @@ function ENT:Initialize()
     end
 end
 
-function ENT:RainEffect()
+function ENT:SpawnSnowground()
+    local bounds = getMapBounds()
+    local maxPos = bounds[1] 
+    local minPos = bounds[2]
+    
+
+    local stepSize = 1024 -- Adjust this value to control the density of snow
+    local traceStartZ = minPos.z
+    local traceLength = 2000000 -- Adjust this value to control the height of snow
+
+    for x = minPos.x, maxPos.x, stepSize do
+        for y = minPos.y, maxPos.y, stepSize do
+            local startPos = Vector(x, y, traceStartZ)
+            local endPos = startPos - Vector(0, 0, traceLength)
+
+            local tr = util.TraceLine({
+                start = startPos,
+                endpos = endPos,
+                mask = MASK_SOLID,
+            })
+
+            if tr.Hit then
+                util.Decal("snow", tr.HitPos + tr.HitNormal, tr.HitPos - tr.HitNormal)
+            end
+        end
+    end
+end
+
+function ENT:SnowEffect()
     for _, ply in ipairs(player.GetAll()) do
 
         if isOutdoor(ply) then
@@ -87,38 +116,11 @@ function ENT:OnRemove()
     end
 end
 
-function ENT:SpawnSnowground()
-    local bounds = getMapBounds()
-    local minPos = Vector(bounds[2].x, bounds[2].y, 0)
-    local maxPos = Vector(bounds[1].x, bounds[1].y, 0)
-
-    local stepSize = 1024
-    local traceStartZ = 10000
-    local traceLength = 20000
-
-    for x = minPos.x, maxPos.x, stepSize do
-        for y = minPos.y, maxPos.y, stepSize do
-            local startPos = Vector(x, y, traceStartZ)
-            local endPos = startPos - Vector(0, 0, traceLength)
-
-            local tr = util.TraceLine({
-                start = startPos,
-                endpos = endPos,
-                mask = MASK_SOLID,
-            })
-
-            if tr.Hit then
-                util.Decal("snow", tr.HitPos + tr.HitNormal * 0.5, tr.HitPos - tr.HitNormal * 0.5)
-            end
-        end
-    end
-end
-
 function ENT:Think()
     local t =  (FrameTime() / 0.1) / (66.666 / 0.1) -- tick dependant function that allows for constant think loop regardless of server tickrate
 
     if (SERVER) then
-        self:RainEffect()
+        self:SnowEffect()
         self:NextThink(CurTime() +  t)
         return true
     end

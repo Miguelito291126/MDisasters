@@ -2,7 +2,7 @@
 {
 	"$basetexture" "decals/mdisasters/sand"
 	"$decal" 1
-	"$decalscale" 256
+	"$decalscale" 64
 	"$translucent" 1
 	"$vertexalpha" 1
 	"$vertexcolor" 1 
