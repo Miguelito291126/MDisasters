@@ -48,32 +48,22 @@ function ENT:Initialize()
     end
 end
 
-function ENT:SpawnSnowground()
-    local bounds = getMapBounds()
-    local maxPos = bounds[1] 
-    local minPos = bounds[2]
-    
+function ENT:SpawnSnowground() 
+	for i=0, 25 do
+		local bounds    = getMapSkyBox()
+		local min       = bounds[1]
+		local max       = bounds[2]
 
-    local stepSize = 1024 -- Adjust this value to control the density of snow
-    local traceStartZ = minPos.z
-    local traceLength = 2000000 -- Adjust this value to control the height of snow
+		local startpos  = Vector(math.random(min.x,max.x), math.random(min.y,max.y), max.z )
+		
+		local tr = util.TraceLine( {
+			start = startpos,
+			endpos = startpos - Vector(0,0,50000),
+			mask = MASK_SOLID_BRUSHONLY
+		} )	
 
-    for x = minPos.x, maxPos.x, stepSize do
-        for y = minPos.y, maxPos.y, stepSize do
-            local startPos = Vector(x, y, traceStartZ)
-            local endPos = startPos - Vector(0, 0, traceLength)
-
-            local tr = util.TraceLine({
-                start = startPos,
-                endpos = endPos,
-                mask = MASK_SOLID,
-            })
-
-            if tr.Hit then
-                util.Decal("snow", tr.HitPos + tr.HitNormal, tr.HitPos - tr.HitNormal)
-            end
-        end
-    end
+		util.Decal("snow", tr.HitPos + tr.HitNormal,  tr.HitPos - tr.HitNormal)
+	end
 end
 
 function ENT:SnowEffect()
