@@ -12,9 +12,9 @@ function Weather_Update()
 
     mdisasters.weather.Temperature = Lerp(0.005, mdisasters.weather.Temperature, mdisasters.weather_target.Temperature)
     mdisasters.weather.Pressure = Lerp(0.005, mdisasters.weather.Pressure, mdisasters.weather_target.Pressure)
-    mdisasters.weather.Wind_speed = Lerp(0.005, mdisasters.weather.Wind_speed, mdisasters.weather_target.Wind_speed)
+    mdisasters.weather.Wind.speed = Lerp(0.005, mdisasters.weather.Wind.speed, mdisasters.weather_target.Wind_speed)
     mdisasters.weather.Humidity = Lerp(0.005, mdisasters.weather.Humidity, mdisasters.weather_target.Humidity)
-    mdisasters.weather.Wind_dir = LerpVector(0.005, mdisasters.weather.Wind_dir, mdisasters.weather_target.Wind_dir)
+    mdisasters.weather.Wind.dir = LerpVector(0.005, mdisasters.weather.Wind.dir, mdisasters.weather_target.Wind_dir)
 
 
     Temperature()
@@ -135,8 +135,8 @@ function Pressure()
 end
 
 function Wind()
-    local Direction = mdisasters.weather.Wind_dir
-    local Force = mdisasters.weather.Wind_speed
+    local Direction = mdisasters.weather.Wind.dir
+    local Force = mdisasters.weather.Wind.speed
     SetGlobalFloat("wind_speed", Force)
     SetGlobalVector("wind_dir", Direction)
 
@@ -160,11 +160,23 @@ function Wind()
                 end
             else
                 local phys = ent:GetPhysicsObject()
-                if phys:IsValid() and phys:IsMotionEnabled() then
-                    -- Solo afectar props si están al aire libre
-                    if isOutdoor(ent) then
-                        phys:AddVelocity(windVec)
-                    end
+                if phys:IsValid() then
+                    if Force >= 25 then
+                        -- Solo afectar props si están al aire libre
+                        if isOutdoor(ent) then
+                            phys:AddVelocity(windVec)
+                        end
+                        if math.random(0,25) == 25 then
+                            constraint.RemoveAll(ent)
+                            phys:Wake()
+                            phys:EnableMotion(true)
+                        end
+                    else
+                        -- Solo afectar props si están al aire libre
+                        if isOutdoor(ent) then
+                            phys:AddVelocity(windVec)
+                        end
+                    end                    
                 end
             end
         end

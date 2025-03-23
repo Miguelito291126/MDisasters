@@ -6,8 +6,8 @@ mdisasters.weather_original = {}
 mdisasters.weather.Temperature = 23
 mdisasters.weather.Pressure = 1000
 mdisasters.weather.Humidity = 25
-mdisasters.weather.Wind_speed = 0
-mdisasters.weather.Wind_dir = Vector(0,0,0)
+mdisasters.weather.Wind.speed = 0
+mdisasters.weather.Wind.dir = Vector(0,0,0)
 
 mdisasters.weather_target.Temperature = 23
 mdisasters.weather_target.Pressure = 1000
