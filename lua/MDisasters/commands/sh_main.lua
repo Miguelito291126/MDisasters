@@ -6,12 +6,12 @@ function convars()
     
     concommand.Add("mdisasters_setwind", function(cmd, args, wind)
         local speed = wind[1]
-        mdisasters.weather.Wind.speed = tonumber(speed)
+        mdisasters.weather.target.Wind.speed = tonumber(speed)
     end)
 
     concommand.Add("mdisasters_setwind_direction", function(cmd, args, wind)
         local direction = Vector(tonumber(wind[1]), tonumber(wind[2]), tonumber(wind[3]))
-        mdisasters.weather.Wind.dir  = direction
+        mdisasters.weather.target.Wind.dir  = direction
     end)
 
 
@@ -33,17 +33,17 @@ function convars()
 
     concommand.Add("mdisasters_setpressure", function(cmd, args, pressure)
         local press = pressure[1]
-        mdisasters.weather.Pressure = tonumber(press)
+        mdisasters.weather.target.Pressure = tonumber(press)
     end)
 
     concommand.Add("mdisasters_sethumidity", function(cmd, args, humidity)
         local humi =  humidity[1]
-        mdisasters.weather.Humidity = tonumber(humi)
+        mdisasters.weather.target.Humidity = tonumber(humi)
     end)
 
     concommand.Add("mdisasters_settemp", function(cmd, args, temp)
         local temperature = temp[1]
-        mdisasters.weather.Temperature = tonumber(temperature)
+        mdisasters.weather.target.Temperature = tonumber(temperature)
     end)
 
 end
