@@ -29,6 +29,8 @@ function ENT:Initialize()
         self.Original_SkyData["TopColor"]    = Vector(0.2, 0.2, 0.2)
         self.Original_SkyData["BottomColor"] = Vector(0.2, 0.2, 0.2)
         self.Original_SkyData["DuskScale"]   = 0
+
+        msg(self.Original_SkyData)
         
 		for i=0, 100 do
 			timer.Simple(i/100, function()

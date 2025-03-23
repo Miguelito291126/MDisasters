@@ -4,14 +4,34 @@ mdisasters.author = "Miguelillo948"
 mdisasters.version = "0.0.1"
 
 function msg(...)
-    MsgC(Color(43,255,0), "[MDisasters][Debug]",Color(255,255,255), ...)
-    MsgN()
+    local args = {...}
+    local output = ""
+
+    for i, v in ipairs(args) do
+        if istable(v) then
+            output = output .. util.TableToJSON(v, true) .. " "  -- Convierte la tabla a JSON legible
+        else
+            output = output .. tostring(v) .. " "
+        end
+    end
+
+    MsgC(Color(43,255,0), "[MDisasters][Debug] ", Color(255,255,255), output .. "\n")
 end
 
 function error(...)
-    MsgC(Color(43,255,0), "[MDisasters][Error]",Color(255,0,0), ...)
-    MsgN()
-end 
+    local args = {...}
+    local output = ""
+
+    for i, v in ipairs(args) do
+        if istable(v) then
+            output = output .. util.TableToJSON(v, true) .. " "
+        else
+            output = output .. tostring(v) .. " "
+        end
+    end
+
+    MsgC(Color(43,255,0), "[MDisasters][Error] ", Color(255,0,0), output .. "\n")
+end
 
 local LuaDirectory = "MDisasters"
 
