@@ -10,11 +10,11 @@ function Weather_Update()
     mdisasters.weather.Humidity  = math.Clamp(mdisasters.weather.Humidity, 0, 100)
 
 
-    mdisasters.weather.Temperature = Lerp(0.005, mdisasters.weather.Temperature, mdisasters.weather_target.Temperature)
-    mdisasters.weather.Pressure = Lerp(0.005, mdisasters.weather.Pressure, mdisasters.weather_target.Pressure)
-    mdisasters.weather.Wind.speed = Lerp(0.005, mdisasters.weather.Wind.speed, mdisasters.weather_target.Wind_speed)
-    mdisasters.weather.Humidity = Lerp(0.005, mdisasters.weather.Humidity, mdisasters.weather_target.Humidity)
-    mdisasters.weather.Wind.dir = LerpVector(0.005, mdisasters.weather.Wind.dir, mdisasters.weather_target.Wind_dir)
+    mdisasters.weather.Temperature = Lerp(0.005, mdisasters.weather.Temperature,mdisasters.weather.target.Temperature)
+    mdisasters.weather.Pressure = Lerp(0.005, mdisasters.weather.Pressure,mdisasters.weather.target.Pressure)
+    mdisasters.weather.Wind.speed = Lerp(0.005, mdisasters.weather.Wind.speed,mdisasters.weather.target.Wind.speed)
+    mdisasters.weather.Humidity = Lerp(0.005, mdisasters.weather.Humidity,mdisasters.weather.target.Humidity)
+    mdisasters.weather.Wind.dir = LerpVector(0.005, mdisasters.weather.Wind.dir,mdisasters.weather.target.Wind.dir)
 
 
     Temperature()
