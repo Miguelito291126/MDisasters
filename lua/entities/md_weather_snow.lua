@@ -11,7 +11,7 @@ function ENT:Initialize()
     self:SpawnSnowground()
 
     if SERVER then
-       mdisasters.weather.target.Wind.dir = mdisasters.weather.target.Wind.dir = Vector(math.random(-1,1), math.random(-1,1), 0)
+       mdisasters.weather.target.Wind.dir = Vector(math.random(-1,1), math.random(-1,1), 0)
        mdisasters.weather.target.Wind.speed = math.random(5, 15)
        mdisasters.weather.target.Temperature = math.random(-5, 0)
        mdisasters.weather.target.Humidity = math.random(25, 40)
