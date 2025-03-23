@@ -31,9 +31,6 @@ function ENT:Initialize()
         self.Original_SkyData["BottomColor"] = Vector(0.2, 0.2, 0.2)
         self.Original_SkyData["DuskScale"]   = 0
 		
-        net.Start("md_sendloopsound")
-        net.WriteString("weather/wind/wind_effect.wav")
-        net.Broadcast()
 
 		for i=0, 100 do
 			timer.Simple(i/100, function()

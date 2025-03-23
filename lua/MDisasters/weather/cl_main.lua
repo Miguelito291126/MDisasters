@@ -23,9 +23,9 @@ function WindControl()
     local windStrongVolume = math.Clamp((localWind - 80) / 120, 0, 1) * outsideFactor
 
     if not ply.Sounds["Wind_Heavy"] then
-        ply.Sounds["Wind_Light"] = CreateLoopedSound(ply, "ambient/wind/wind_snippet1.wav")
-        ply.Sounds["Wind_Moderate"] = CreateLoopedSound(ply, "ambient/wind/wind_hit1.wav")
-        ply.Sounds["Wind_Heavy"] = CreateLoopedSound(ply, "ambient/wind/wind_snippet2.wav")
+        ply.Sounds["Wind_Light"] = CreateLoopedSound(ply, "weather/wind/wind_effect.wav")
+        ply.Sounds["Wind_Moderate"] = CreateLoopedSound(ply, "weather/wind/wind_effect.wav")
+        ply.Sounds["Wind_Heavy"] = CreateLoopedSound(ply, "weather/wind/wind_effect.wav")
 
         ply.Sounds["Wind_Light"]:ChangeVolume(0, 0)
         ply.Sounds["Wind_Moderate"]:ChangeVolume(0, 0)
