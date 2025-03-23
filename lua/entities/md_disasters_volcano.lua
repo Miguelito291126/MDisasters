@@ -22,6 +22,11 @@ function ENT:Initialize()
 	CSPatch:Play()
 	self.Sounds = CSPatch
 
+    timer.Create("Lava_Erupt",  GetConVar("mdisasters_volcano_time"):GetInt(), 0, function()
+        if !self:IsValid() then return end
+        self:VolcanoErupt() 
+    end)
+
     if (SERVER) then
         self:SetModel( self.Model )
 		self:PhysicsInit( SOLID_VPHYSICS )
@@ -35,14 +40,10 @@ function ENT:Initialize()
             phys:SetMass(self.Mass)
             phys:EnableMotion(false)
         end
-		
-        timer.Create("Lava_Erupt",  GetConVar("mdisasters_volcano_time"):GetInt(), 0, function()
-            if !self:IsValid() then return end
-            self:VolcanoErupt() 
-        end)
-        
-        ParticleEffectAttach("volcano_trail", PATTACH_POINT_FOLLOW, self, 0)
+    end
 
+    if (CLIENT) then
+        self.volcanotrail = self:CreateParticleEffect("volcano_trail", PATTACH_POINT_FOLLOW)
     end
 end
 
@@ -64,19 +65,34 @@ end
 
 function ENT:VolcanoErupt()
     self:EmitSound("disasters/volcano/volcano_explosion.wav", 100)
-    ParticleEffect( "volcano_explosion", self:GetPos(), Angle(0,0,0) )
-    
-    local earthquake = ents.Create("md_disasters_earthquake")
-    earthquake:Spawn()
-    earthquake:Activate()
 
-    for i = 0,5 do
-        local rock = ents.Create("md_disasters_meteor")
-        rock:Spawn()
-        rock:Activate()
-        rock:SetPos(self:GetPos() + Vector(0, 0, 100))
-        rock:GetPhysicsObject():SetVelocity( Vector(math.random(-10000,10000),math.random(-10000,10000),math.random(5000,10000)) )
-        rock:GetPhysicsObject():AddAngleVelocity( VectorRand() * 100 ) 
+    if CLIENT then
+        self.volcanoexplosion = self:CreateParticleEffect("volcano_explosion", PATTACH_POINT_FOLLOW)
+
+        if self.volcanotrail:IsValid() then
+            self.volcanotrail:StopEmission(true)
+            
+        end
+        timer.Simple(6, function() 
+            if self.volcanoexplosion:IsValid() then
+                self.volcanoexplosion:StopEmission(true)
+                self.volcanotrail = self:CreateParticleEffect("volcano_trail", PATTACH_POINT_FOLLOW)
+            end 
+        end)
+    end
+    if SERVER then
+        local earthquake = ents.Create("md_disasters_earthquake")
+        earthquake:Spawn()
+        earthquake:Activate()
+
+        for i = 0,5 do
+            local rock = ents.Create("md_disasters_meteor")
+            rock:Spawn()
+            rock:Activate()
+            rock:SetPos(self:GetPos() + Vector(0, 0, 100))
+            rock:GetPhysicsObject():SetVelocity( Vector(math.random(-10000,10000),math.random(-10000,10000),math.random(5000,10000)) )
+            rock:GetPhysicsObject():AddAngleVelocity( VectorRand() * 100 ) 
+        end
     end
 end
 
