@@ -11,7 +11,7 @@ function ENT:Initialize()
     self:SpawnSnowground()
 
     if SERVER then
-       mdisasters.weather.target.Wind.dir = Vector(math.random(-1000,1000), math.random(-1000,1000),0)
+       mdisasters.weather.target.Wind.dir = mdisasters.weather.target.Wind.dir = Vector(math.random(-1,1), math.random(-1,1), 0)
        mdisasters.weather.target.Wind.speed = math.random(5, 15)
        mdisasters.weather.target.Temperature = math.random(-5, 0)
        mdisasters.weather.target.Humidity = math.random(25, 40)
@@ -80,11 +80,11 @@ end
 
 function ENT:OnRemove()
 	if (SERVER) then		
-       mdisasters.weather.target.Wind.dir =mdisasters.weather.original.Wind.dir 
-       mdisasters.weather.target.Wind.speed =mdisasters.weather.original.Wind.speed
-       mdisasters.weather.target.Temperature =mdisasters.weather.original.Temperature
-       mdisasters.weather.target.Humidity =mdisasters.weather.original.Humidity
-       mdisasters.weather.target.Pressure =mdisasters.weather.original.Pressure
+       mdisasters.weather.target.Wind.dir = mdisasters.weather.original.Wind.dir 
+       mdisasters.weather.target.Wind.speed = mdisasters.weather.original.Wind.speed
+       mdisasters.weather.target.Temperature = mdisasters.weather.original.Temperature
+       mdisasters.weather.target.Humidity = mdisasters.weather.original.Humidity
+       mdisasters.weather.target.Pressure = mdisasters.weather.original.Pressure
 
         Reset_SkyData = {}
         Reset_SkyData["TopColor"]       = Vector(0.20,0.50,1.00)

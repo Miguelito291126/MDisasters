@@ -2,7 +2,7 @@ SetGlobalFloat("temperature", 0)
 SetGlobalFloat("pressure", 0)
 SetGlobalFloat("humidity", 0)
 SetGlobalFloat("wind_speed", 0)
-SetGlobalVector("wind_dir", Vector(0,0,0))
+SetGlobalVector("wind_dir", Vector(1,0,0))
 
 function Weather_Update()
     mdisasters.weather.Temperature = math.Clamp(mdisasters.weather.Temperature, -273.3, 273.3)
