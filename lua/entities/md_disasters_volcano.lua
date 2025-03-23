@@ -93,6 +93,27 @@ function ENT:VolcanoErupt()
             rock:GetPhysicsObject():SetVelocity( Vector(math.random(-10000,10000),math.random(-10000,10000),math.random(5000,10000)) )
             rock:GetPhysicsObject():AddAngleVelocity( VectorRand() * 100 ) 
         end
+
+        for k,v in pairs(ents.FindInSphere(self:GetPos(), 2500)) do
+            if IsValid( v:GetPhysicsObject()) then
+                constraint.RemoveAll( v )
+                v:GetPhysicsObject():EnableMotion(true)
+                v:GetPhysicsObject():Wake()
+            end
+        end
+
+        local pe = ents.Create( "env_physexplosion" );
+        pe:SetPos( self:GetPos() );
+        pe:SetKeyValue( "Magnitude", 5000 );
+        pe:SetKeyValue( "radius", 4000 );
+        pe:SetKeyValue( "spawnflags", 19 );
+        pe:Spawn();
+        pe:Activate();
+        pe:Fire( "Explode", "", 0 );
+        pe:Fire( "Kill", "", 0.5 );
+
+        util.BlastDamage( self, self, self:GetPos(), 3200, math.random( 10000, 40000 ) )
+		
     end
 end
 
