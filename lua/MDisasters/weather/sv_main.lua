@@ -137,6 +137,7 @@ end
 function Wind()
     local Direction = mdisasters.weather.Wind.dir
     local Force = mdisasters.weather.Wind.speed
+    
     SetGlobalFloat("wind_speed", Force)
     SetGlobalVector("wind_dir", Direction)
 
