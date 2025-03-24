@@ -179,9 +179,12 @@ function Wind()
                         phys:AddVelocity(windVec)
                     end
                 end 
-            else
-                ent:SetVelocity(windVec)              
             end
+            if ent:IsNPC() then
+                if isOutdoor(ent) then
+                    ent:SetVelocity(windVec)  
+                end      
+            end     
         end
     end
 end
