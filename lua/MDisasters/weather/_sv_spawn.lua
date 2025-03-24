@@ -4,9 +4,9 @@ function PostSpawnSV(ply)
     ply.mdisasters.body.Temperature = 36.6
     ply.mdisasters.body.Oxygen = 100
 
-    ply.mdisasters.area = {}
-    ply.mdisasters.area.local_wind = 0
-    ply.mdisasters.area.isoutdoor = false
+    ply.mdisasters.Area = {}
+    ply.mdisasters.Area.Local_wind = 0
+    ply.mdisasters.Area.IsOutDoor = false
     
     ply.Sounds = {}
 

@@ -143,42 +143,44 @@ function Wind()
     SetGlobalFloat("wind_speed", Force)
     SetGlobalVector("wind_dir", Direction)
 
+    for _, ply in ipairs(player.GetAll()) do
+       
+        local local_wind = Force
+        
+        if !isOutdoor(ply) or IsSomethingBlockingWind(ply) then local_wind = 0 end
+        
+        local local_windVec = Direction:GetNormalized() * local_wind
+         
+        ply.mdisasters.Area.Local_wind = local_wind
+        ply:SetNWFloat("BodyWind", local_wind)
+        ply:SetVelocity(local_windVec)
+
+
+
+    end
     for _, ent in ipairs(ents) do
         if ent:IsValid() then
-
-            if ent:IsPlayer() or ent:IsNPC() then
-                if isOutdoor(ent) and !IsSomethingBlockingWind(ent) then
-                    ent:SetVelocity(windVec)
-                    
-                    if ent:IsPlayer() then
-                        ent:SetNWFloat("BodyWind", Force )
+            local phys = ent:GetPhysicsObject()
+            if phys:IsValid() then
+                if Force >= 25 then
+                    -- Solo afectar props si están al aire libre
+                    if isOutdoor(ent) then
+                        phys:AddVelocity(windVec)
+                        
+                        if math.random(0,25) == 25 then
+                            constraint.RemoveAll(ent)
+                            phys:Wake()
+                            phys:EnableMotion(true)
+                        end
                     end
                 else
-                    if ent:IsPlayer() then
-                        ent:SetNWFloat("BodyWind", 0)
+                    -- Solo afectar props si están al aire libre
+                    if isOutdoor(ent) then
+                        phys:AddVelocity(windVec)
                     end
-                end
+                end 
             else
-                local phys = ent:GetPhysicsObject()
-                if phys:IsValid() then
-                    if Force >= 25 then
-                        -- Solo afectar props si están al aire libre
-                        if isOutdoor(ent) then
-                            phys:AddVelocity(windVec)
-                            
-                            if math.random(0,25) == 25 then
-                                constraint.RemoveAll(ent)
-                                phys:Wake()
-                                phys:EnableMotion(true)
-                            end
-                        end
-                    else
-                        -- Solo afectar props si están al aire libre
-                        if isOutdoor(ent) then
-                            phys:AddVelocity(windVec)
-                        end
-                    end                    
-                end
+                ent:SetVelocity(windVec)              
             end
         end
     end

@@ -102,7 +102,7 @@ function isOutdoor(ent)
         net.Start("md_isOutdoor")
         net.WriteBool(tr.HitSky)
         net.Send(ent)
-        ent.mdisasters.area.isoutdoor = tr.HitSky  -- Si no golpea nada arriba, está al aire libre
+        ent.mdisasters.Area.IsOutDoor = tr.HitSky  -- Si no golpea nada arriba, está al aire libre
     else
         ent.IsOutdoor = tr.HitSky
     end
