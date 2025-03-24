@@ -1,7 +1,7 @@
 function Atmosphere()
 	WindControl()
 end
-hook.Add("Think", "atmosphericLoop", Atmosphere)
+hook.Add("Think", "Weather_Sounds", Atmosphere)
 
 function WindControl()
 	if LocalPlayer().mdisasters == nil then return end
@@ -9,7 +9,7 @@ function WindControl()
 	
 	local local_wind    = LocalPlayer():GetNWFloat("BodyWind")
 	local outside_fac   = LocalPlayer().mdisasters.Outside.OutsideFactor/100 
-	local wind_weak_vol = math.Clamp( ( (math.Clamp((( math.Clamp(local_wind / 20, 0, 1) * 5)^2) * local_wind, 0, local_wind)) / 20), 0, 100) 
+	local wind_weak_vol = math.Clamp( ( (math.Clamp((( math.Clamp(local_wind / 20, 0, 1) * 5)^2) * local_wind, 0, local_wind)) / 20), 0, 1) 
 	
 	
 	if LocalPlayer().mdisasters.Outside.IsOutside then
@@ -18,8 +18,8 @@ function WindControl()
 		wind_weak_vol   = wind_weak_vol * math.Clamp(outside_fac , 0.1, 1)
 	end
 	
-	local wind_mod_vol  = math.Clamp( ( (local_wind-20) / 60), 0, 100) * outside_fac 		
-	local wind_str_vol  = math.Clamp( ( (local_wind-80) / 120), 0, 100) * outside_fac 	
+	local wind_mod_vol  = math.Clamp( ( (local_wind-20) / 60), 0, 1) * outside_fac 		
+	local wind_str_vol  = math.Clamp( ( (local_wind-80) / 120), 0, 1) * outside_fac 	
 	
 	if LocalPlayer().Sounds["Wind_Heavy"] == nil then
 		
