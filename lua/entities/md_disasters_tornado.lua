@@ -8,7 +8,6 @@ ENT.PrintName = "Tornado"
 
 ENT.Category = "MDisasters"
 
-
 ENT.EnhancedFujitaScale = "EF1"
 ENT.Model = "models/props_c17/oildrum001.mdl"
 ENT.Mass = 100
@@ -43,7 +42,7 @@ function ENT:Initialize()
         self.Direction = dir
         self.NextDirectionChange = CurTime() + 5
         self.Radius = GetConVar("mdisasters_tornado_radius"):GetInt()
-        self.MaxForce = GetConVar("mdisasters_tornado_force"):GetInt()
+        self.Force = GetConVar("mdisasters_tornado_force"):GetInt()
         self.Speed = GetConVar("mdisasters_tornado_speed"):GetInt()
 
         timer.Simple(GetConVar("mdisasters_tornado_time"):GetInt(), function()
@@ -68,19 +67,22 @@ function ENT:Physics()
                 distanceFraction = math.Clamp(distanceFraction, 0, 1)
 
                 -- Fuerza proporcional a cercanía al centro (decay cuadrático)
-                local forceMagnitude = self.MaxForce * distanceFraction ^ 2
+                local forceMagnitude = self.Force * distanceFraction ^ 2
 
-                -- Direcciones de fuerza
+                -- Direcciones de fuerza (movimiento circular)
                 local direction = (tornadoPos - ent:GetPos()):GetNormalized()
                 direction.z = 0  -- solo horizontal
+                local tangentialDir = Vector(-direction.y, direction.x, 0)  -- Dirección tangencial para movimiento circular
+
+                -- Aplicar fuerzas de movimiento circular
                 local pullForce = direction * forceMagnitude
+                local circularForce = tangentialDir * forceMagnitude * 0.5  -- Aumento para hacer que el movimiento circular sea más notorio
 
                 local verticalForce = Vector(0, 0, forceMagnitude * 0.5)
                 local vortexDir = Vector(-direction.y, direction.x, 0)
                 local vortexForce = vortexDir * (forceMagnitude * 0.4)
 
-                local totalForce = pullForce + verticalForce + vortexForce
-
+                local totalForce = pullForce + verticalForce + vortexForce + circularForce  -- Añadir fuerza circular
 
                 if ent:GetPhysicsObject():IsValid() then
                     local phys = ent:GetPhysicsObject()
@@ -93,8 +95,9 @@ function ENT:Physics()
                     end
                 end
                 
-                -- Aplicar fuerza a jugadores y NPCs
+                -- Aplicar fuerza a jugadores y NPCs para movimiento circular
                 if ent:IsPlayer() or ent:IsNPC() then
+                    -- Para los jugadores y NPCs, también se añade el movimiento circular
                     ent:SetVelocity(totalForce * 2)
                 end
             end
@@ -120,13 +123,10 @@ function ENT:BounceFromWalls(dir)
 end
 
 function ENT:Move()
-    -- Cambiar levemente la dirección cada 5 segundos
-    if CurTime() >= self.NextDirectionChange then
-        local randomAngle = Angle(0, math.random(-15, 15), 0)
-        self.Direction:Rotate(randomAngle)
-        self.Direction:Normalize()
-        self.NextDirectionChange = CurTime() + 5
-    end
+    -- Cambiar la dirección de forma constante, pero con un cambio más sutil.
+    local randomAngle = Angle(0, math.random(-5, 5), 0)  -- Ángulo aleatorio más sutil
+    self.Direction:Rotate(randomAngle)
+    self.Direction:Normalize()
 
     -- Intentar mover el tornado horizontalmente
     local horizontalMove = self.Direction * self.Speed
