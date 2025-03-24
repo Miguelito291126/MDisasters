@@ -90,3 +90,21 @@ function paintSky_Fade(data_to, fraction) -- fade from one skypaint setting to a
 
 end
 
+function isOutdoor(ent)
+   local traceData = {}
+   traceData.start = ent:GetPos()
+   traceData.endpos = ent:GetPos() + Vector(0, 0, 48000)  -- 1000 units hacia arriba
+   traceData.mask = MASK_SOLID
+   traceData.filter = ent
+   local tr = util.TraceLine(traceData)
+
+    if ent:IsPlayer() then
+        net.Start("md_isOutdoor")
+        net.WriteBool(tr.HitSky)
+        net.Send(ent)
+        ent.mdisasters.area.isoutdoor = tr.HitSky  -- Si no golpea nada arriba, está al aire libre
+    end
+
+   return tr.HitSky  -- Si no golpea nada arriba, está al aire libre
+end
+

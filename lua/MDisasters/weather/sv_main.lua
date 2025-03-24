@@ -166,11 +166,12 @@ function Wind()
                         -- Solo afectar props si están al aire libre
                         if isOutdoor(ent) then
                             phys:AddVelocity(windVec)
-                        end
-                        if math.random(0,25) == 25 then
-                            constraint.RemoveAll(ent)
-                            phys:Wake()
-                            phys:EnableMotion(true)
+                            
+                            if math.random(0,25) == 25 then
+                                constraint.RemoveAll(ent)
+                                phys:Wake()
+                                phys:EnableMotion(true)
+                            end
                         end
                     else
                         -- Solo afectar props si están al aire libre

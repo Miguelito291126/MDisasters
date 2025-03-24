@@ -61,20 +61,20 @@ end)
 net.Receive("md_isOutdoor", function()
 	isOutside                = net.ReadBool()
 
-	if LocalPlayer().gDisasters == nil then return end
+	if LocalPlayer().mdisasters == nil then return end
 
 
-	LocalPlayer().gDisasters.Outside.IsOutside     = isOutside
+	LocalPlayer().mdisasters.Outside.IsOutside     = isOutside
 
 
 
 
 	if isOutside then
 
-		LocalPlayer().gDisasters.Outside.OutsideFactor   = Lerp( 0.01, LocalPlayer().gDisasters.Outside.OutsideFactor, 100)
+		LocalPlayer().mdisasters.Outside.OutsideFactor   = Lerp( 0.01, LocalPlayer().mdisasters.Outside.OutsideFactor, 100)
 
 	else
-		LocalPlayer().gDisasters.Outside.OutsideFactor   = Lerp( 0.01, LocalPlayer().gDisasters.Outside.OutsideFactor, 0)
+		LocalPlayer().mdisasters.Outside.OutsideFactor   = Lerp( 0.01, LocalPlayer().mdisasters.Outside.OutsideFactor, 0)
 	end
 
 end)
