@@ -11,17 +11,13 @@ ENT.Category = "MDisasters"
 
 
 function ENT:Initialize()
-
-
-
-
     if SERVER then
         -- Timer constante del terremoto
         self:SetModel("models/props_junk/rock001a.mdl") -- Modelo opcional
         self:SetNoDraw(true) -- No se ve, puro efecto
         self:SetSolid(SOLID_NONE)
 
-        timer.Simple(GetConVar("mdisasters_earthquake_time"):GetInt(), function()
+        timer.Simple(GetConVar("MDisasters_earthquake_time"):GetInt(), function()
             if not self:IsValid() then return end
             self:Remove()
         end)
@@ -30,12 +26,12 @@ function ENT:Initialize()
         net.WriteString("disasters/earthquake/earthquake_loop.wav")
         net.Broadcast()
 
-        self.Radius = GetConVar("mdisasters_earthquake_radius"):GetInt()
-        self.ShakeIntensity = GetConVar("mdisasters_earthquake_shake_force"):GetInt()
+        self.Radius = GetConVar("MDisasters_earthquake_radius"):GetInt()
+        self.ShakeIntensity = GetConVar("MDisasters_earthquake_shake_force"):GetInt()
         self.ShakeDuration = 1
         self.ShakeFreq = 5 -- frecuencia de la sacudida
-        self.PushForce = GetConVar("mdisasters_earthquake_force"):GetInt()
-        self.PushForcePlayer = GetConVar("mdisasters_earthquake_player_force"):GetInt()
+        self.PushForce = GetConVar("MDisasters_earthquake_force"):GetInt()
+        self.PushForcePlayer = GetConVar("MDisasters_earthquake_player_force"):GetInt()
 
 
        

@@ -1,5 +1,5 @@
 hook.Add("HUDPaint", "MDisasters_HUDPaint", function() 
-    if not GetConVar("mdisasters_hud_enabled"):GetBool() then return end 
+    if not GetConVar("MDisasters_hud_enabled"):GetBool() then return end 
 
     local w, h = ScrW(), ScrH() 
 

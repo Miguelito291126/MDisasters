@@ -102,7 +102,7 @@ function isOutdoor(ent)
         net.Start("md_isOutdoor")
         net.WriteBool(tr.HitSky)
         net.Send(ent)
-        ent.mdisasters.Area.IsOutDoor = tr.HitSky  -- Si no golpea nada arriba, está al aire libre
+        ent.MDisasters.Area.IsOutDoor = tr.HitSky  -- Si no golpea nada arriba, está al aire libre
     else
         ent.IsOutdoor = tr.HitSky
     end
@@ -116,7 +116,7 @@ function IsSomethingBlockingWind(entity)
 
 	local tr = util.TraceLine( {
 		start = entity:GetPos() + Vector(0,0,10),
-		endpos = entity:GetPos() + Vector(0,0,10) + (mdisasters.weather.Wind.dir * 300),
+		endpos = entity:GetPos() + Vector(0,0,10) + (MDisasters.weather.Wind.dir * 300),
 		filter = entity
 
 	} )

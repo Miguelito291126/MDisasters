@@ -79,28 +79,28 @@ local function CreateSliderConVariable(CPanel, desc, minvar, maxvar, dp, convarn
 end
 
 local function MDisastersSettings( CPanel )
-    CreateTickboxConVariable(CPanel, "Enable Oxygen" ,"mdisasters_hud_oxygen_enabled");
-    CreateTickboxConVariable(CPanel, "Enable Temp" ,"mdisasters_hud_temperature_enabled");
-    CreateTickboxConVariable(CPanel, "Enable Oxygen Damage" ,"mdisasters_hud_damage_oxygen_enabled");
-    CreateTickboxConVariable(CPanel, "Enable Temp Damage" ,"mdisasters_hud_damage_temperature_enabled");
+    CreateTickboxConVariable(CPanel, "Enable Oxygen" ,"MDisasters_hud_oxygen_enabled");
+    CreateTickboxConVariable(CPanel, "Enable Temp" ,"MDisasters_hud_temperature_enabled");
+    CreateTickboxConVariable(CPanel, "Enable Oxygen Damage" ,"MDisasters_hud_damage_oxygen_enabled");
+    CreateTickboxConVariable(CPanel, "Enable Temp Damage" ,"MDisasters_hud_damage_temperature_enabled");
 
 end
 
 local function MDisastersSettingsClient( CPanel )
-    CreateTickboxConVariable(CPanel, "Enable Hud" ,"mdisasters_hud_enabled");
+    CreateTickboxConVariable(CPanel, "Enable Hud" ,"MDisasters_hud_enabled");
 end
 
 local function MDisastersSettingsServer( CPanel )
-	CreateSliderConVariable(CPanel, "Tornado Speed", 0, 10000, 0, "mdisasters_tornado_speed")
-	CreateSliderConVariable(CPanel, "Tornado Radius", 0, 10000, 0, "mdisasters_tornado_radius")
-	CreateSliderConVariable(CPanel, "Tornado Force", 0, 10000, 0, "mdisasters_tornado_force")
-	CreateSliderConVariable(CPanel, "Tornado Remove Time", 0, 10000, 0, "mdisasters_tornado_time")
-	CreateSliderConVariable(CPanel, "Earthquake Force", 0, 10000, 0, "mdisasters_earthquake_force")
-	CreateSliderConVariable(CPanel, "Earthquake Radius", 0, 10000, 0, "mdisasters_earthquake_radius")
-	CreateSliderConVariable(CPanel, "Earthquake Player force", 0, 10000, 0, "mdisasters_earthquake_player_force")
-	CreateSliderConVariable(CPanel, "Earthquake Remove Time", 0, 10000, 0, "mdisasters_earthquake_time")
-	CreateSliderConVariable(CPanel, "Earthquake Shake Force", 0, 10000, 0, "mdisasters_earthquake_shake_force")
-	CreateSliderConVariable(CPanel, "Volcano Time", 0, 10000, 0, "mdisasters_volcano_time")
+	CreateSliderConVariable(CPanel, "Tornado Speed", 0, 10000, 0, "MDisasters_tornado_speed")
+	CreateSliderConVariable(CPanel, "Tornado Radius", 0, 10000, 0, "MDisasters_tornado_radius")
+	CreateSliderConVariable(CPanel, "Tornado Force", 0, 10000, 0, "MDisasters_tornado_force")
+	CreateSliderConVariable(CPanel, "Tornado Remove Time", 0, 10000, 0, "MDisasters_tornado_time")
+	CreateSliderConVariable(CPanel, "Earthquake Force", 0, 10000, 0, "MDisasters_earthquake_force")
+	CreateSliderConVariable(CPanel, "Earthquake Radius", 0, 10000, 0, "MDisasters_earthquake_radius")
+	CreateSliderConVariable(CPanel, "Earthquake Player force", 0, 10000, 0, "MDisasters_earthquake_player_force")
+	CreateSliderConVariable(CPanel, "Earthquake Remove Time", 0, 10000, 0, "MDisasters_earthquake_time")
+	CreateSliderConVariable(CPanel, "Earthquake Shake Force", 0, 10000, 0, "MDisasters_earthquake_shake_force")
+	CreateSliderConVariable(CPanel, "Volcano Time", 0, 10000, 0, "MDisasters_volcano_time")
 
 end
 

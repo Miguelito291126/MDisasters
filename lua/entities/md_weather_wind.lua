@@ -13,22 +13,22 @@ function ENT:Initialize()
         self:SetNoDraw(true)
         self:SetSolid(SOLID_NONE)
 
-       mdisasters.weather.target.Wind.dir = Vector(math.random(-1,1), math.random(-1,1), 0)
-       mdisasters.weather.target.Wind.speed = math.random(5, 10)
-       mdisasters.weather.target.Temperature = math.random(5, 15)
-       mdisasters.weather.target.Humidity = math.random(25, 40)
-       mdisasters.weather.target.Pressure = math.random(980, 990)
+       MDisasters.weather.target.Wind.dir = Vector(math.random(-1,1), math.random(-1,1), 0)
+       MDisasters.weather.target.Wind.speed = math.random(5, 10)
+       MDisasters.weather.target.Temperature = math.random(5, 15)
+       MDisasters.weather.target.Humidity = math.random(25, 40)
+       MDisasters.weather.target.Pressure = math.random(980, 990)
         
     end
 end
 
 function ENT:OnRemove()
  	if (SERVER) then	
-       mdisasters.weather.target.Wind.dir =mdisasters.weather.original.Wind.dir 
-       mdisasters.weather.target.Wind.speed =mdisasters.weather.original.Wind.speed
-       mdisasters.weather.target.Temperature =mdisasters.weather.original.Temperature
-       mdisasters.weather.target.Humidity =mdisasters.weather.original.Humidity
-       mdisasters.weather.target.Pressure =mdisasters.weather.original.Pressure
+       MDisasters.weather.target.Wind.dir =MDisasters.weather.original.Wind.dir 
+       MDisasters.weather.target.Wind.speed =MDisasters.weather.original.Wind.speed
+       MDisasters.weather.target.Temperature =MDisasters.weather.original.Temperature
+       MDisasters.weather.target.Humidity =MDisasters.weather.original.Humidity
+       MDisasters.weather.target.Pressure =MDisasters.weather.original.Pressure
 	end
 end
 

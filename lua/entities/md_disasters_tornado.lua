@@ -42,11 +42,11 @@ function ENT:Initialize()
         dir:Normalize()
         self.Direction = dir
         self.NextDirectionChange = CurTime() + 5
-        self.Radius = GetConVar("mdisasters_tornado_radius"):GetInt()
-        self.MaxForce = GetConVar("mdisasters_tornado_force"):GetInt()
-        self.Speed = GetConVar("mdisasters_tornado_speed"):GetInt()
+        self.Radius = GetConVar("MDisasters_tornado_radius"):GetInt()
+        self.MaxForce = GetConVar("MDisasters_tornado_force"):GetInt()
+        self.Speed = GetConVar("MDisasters_tornado_speed"):GetInt()
 
-        timer.Simple(GetConVar("mdisasters_tornado_time"):GetInt(), function()
+        timer.Simple(GetConVar("MDisasters_tornado_time"):GetInt(), function()
             if not self:IsValid() then return end
             self:Remove()
         end)

@@ -4,15 +4,15 @@ end
 hook.Add("Think", "Weather_Sounds", Atmosphere)
 
 function WindControl()
-	if LocalPlayer().mdisasters == nil then return end
+	if LocalPlayer().MDisasters == nil then return end
 	if LocalPlayer().Sounds == nil then LocalPlayer().Sounds = {} end
 	
 	local local_wind    = LocalPlayer():GetNWFloat("BodyWind")
-	local outside_fac   = LocalPlayer().mdisasters.Outside.OutsideFactor/100 
+	local outside_fac   = LocalPlayer().MDisasters.Outside.OutsideFactor/100 
 	local wind_weak_vol = math.Clamp( ( (math.Clamp((( math.Clamp(local_wind / 20, 0, 1) * 5)^2) * local_wind, 0, local_wind)) / 20), 0, 1) 
 	
 	
-	if LocalPlayer().mdisasters.Outside.IsOutside then
+	if LocalPlayer().MDisasters.Outside.IsOutside then
 		wind_weak_vol   = wind_weak_vol * math.Clamp(outside_fac , 0, 1) 
 	else
 		wind_weak_vol   = wind_weak_vol * math.Clamp(outside_fac , 0.1, 1)

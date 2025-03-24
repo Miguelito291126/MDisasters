@@ -8,8 +8,8 @@ discord: https://discord.gg/UjDwAKq6de
 
 commands:
 
-mdisasters_hud_enabled: enable the hud
-mdisasters_hud_temperature_enabled: enable temperature body
-mdisasters_hud_damage_temperature_enabled: enable temperature body damage
-mdisasters_hud_oxygen_enabled: enable oxygen body
-mdisasters_hud_damage_oxygen_enabled: enable oxygen body damage
+MDisasters_hud_enabled: enable the hud
+MDisasters_hud_temperature_enabled: enable temperature body
+MDisasters_hud_damage_temperature_enabled: enable temperature body damage
+MDisasters_hud_oxygen_enabled: enable oxygen body
+MDisasters_hud_damage_oxygen_enabled: enable oxygen body damage

@@ -1,7 +1,7 @@
-mdisasters = {}
-mdisasters.name = "MDisasters"
-mdisasters.author = "Miguelillo948"
-mdisasters.version = "0.0.1"
+MDisasters = {}
+MDisasters.name = "MDisasters"
+MDisasters.author = "Miguelillo948"
+MDisasters.version = "0.0.1"
 
 function msg(...)
     local args = {...}
@@ -108,13 +108,13 @@ loadParticles( ParticlesDirectory )
 
 
 
-local DecalsDirectory = "materials/decals/mdisasters"
+local DecalsDirectory = "materials/decals/MDisasters"
 
 local function AddDecalsFile(Key, File, directory)
     -- Extraemos el nombre base, ignorando cualquier número al final y la extensión
     local baseName = File:match("(.+)_?%d*%.")  -- Ahora esta expresión regular también captura casos con guiones bajos o sin ellos y elimina los números
 
-    local decalPath = "decals/mdisasters/" .. baseName
+    local decalPath = "decals/MDisasters/" .. baseName
     
     -- Imprime el decal cargado
     msg("Adding decal: " .. decalPath)

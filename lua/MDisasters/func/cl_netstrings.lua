@@ -1,6 +1,6 @@
 net.Receive("md_clparticles", function()
 	local effect = net.ReadString()
-	local angle  = convert_VectorToAngle(-mdisasters.weather.Wind.dir)
+	local angle  = convert_VectorToAngle(-MDisasters.weather.Wind.dir)
 	ParticleEffect( effect, LocalPlayer():GetPos(), angle, nil )
 end)
 
@@ -10,7 +10,7 @@ net.Receive("gd_clParticles_ground", function()
 	end
 
 	local effect = net.ReadString()
-	local angle  = convert_VectorToAngle(-mdisasters.weather.Wind.dir)
+	local angle  = convert_VectorToAngle(-MDisasters.weather.Wind.dir)
 	ParticleEffect( effect, LocalPlayer():GetPos(), angle, nil )
 
 end)
@@ -61,20 +61,20 @@ end)
 net.Receive("md_isOutdoor", function()
 	isOutside                = net.ReadBool()
 
-	if LocalPlayer().mdisasters == nil then return end
+	if LocalPlayer().MDisasters == nil then return end
 
 
-	LocalPlayer().mdisasters.Outside.IsOutside     = isOutside
+	LocalPlayer().MDisasters.Outside.IsOutside     = isOutside
 
 
 
 
 	if isOutside then
 
-		LocalPlayer().mdisasters.Outside.OutsideFactor   = Lerp( 0.01, LocalPlayer().mdisasters.Outside.OutsideFactor, 100)
+		LocalPlayer().MDisasters.Outside.OutsideFactor   = Lerp( 0.01, LocalPlayer().MDisasters.Outside.OutsideFactor, 100)
 
 	else
-		LocalPlayer().mdisasters.Outside.OutsideFactor   = Lerp( 0.01, LocalPlayer().mdisasters.Outside.OutsideFactor, 0)
+		LocalPlayer().MDisasters.Outside.OutsideFactor   = Lerp( 0.01, LocalPlayer().MDisasters.Outside.OutsideFactor, 0)
 	end
 
 end)

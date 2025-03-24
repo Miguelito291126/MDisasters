@@ -11,11 +11,11 @@ function ENT:Initialize()
 
 
     if SERVER then
-        mdisasters.weather.target.Wind.dir = Vector(math.random(-1,1), math.random(-1,1), 0)
-       mdisasters.weather.target.Wind.speed = math.random(5, 10)
-       mdisasters.weather.target.Temperature = math.random(5, 15)
-       mdisasters.weather.target.Humidity = math.random(25, 40)
-       mdisasters.weather.target.Pressure = math.random(980, 990)
+        MDisasters.weather.target.Wind.dir = Vector(math.random(-1,1), math.random(-1,1), 0)
+       MDisasters.weather.target.Wind.speed = math.random(5, 10)
+       MDisasters.weather.target.Temperature = math.random(5, 15)
+       MDisasters.weather.target.Humidity = math.random(25, 40)
+       MDisasters.weather.target.Pressure = math.random(980, 990)
         
         self:SetModel("models/props_junk/PopCan01a.mdl")
 		self:PhysicsInit( SOLID_VPHYSICS )
@@ -103,11 +103,11 @@ function ENT:OnRemove()
         end
 
 
-       mdisasters.weather.target.Wind.dir =mdisasters.weather.original.Wind.dir 
-       mdisasters.weather.target.Wind.speed =mdisasters.weather.original.Wind.speed
-       mdisasters.weather.target.Temperature =mdisasters.weather.original.Temperature
-       mdisasters.weather.target.Humidity =mdisasters.weather.original.Humidity
-       mdisasters.weather.target.Pressure =mdisasters.weather.original.Pressure
+       MDisasters.weather.target.Wind.dir =MDisasters.weather.original.Wind.dir 
+       MDisasters.weather.target.Wind.speed =MDisasters.weather.original.Wind.speed
+       MDisasters.weather.target.Temperature =MDisasters.weather.original.Temperature
+       MDisasters.weather.target.Humidity =MDisasters.weather.original.Humidity
+       MDisasters.weather.target.Pressure =MDisasters.weather.original.Pressure
 
         Reset_SkyData = {}
         Reset_SkyData["TopColor"]       = Vector(0.20,0.50,1.00)

@@ -1,52 +1,52 @@
 function convars()
-    CreateConVar( "mdisasters_hud_oxygen_enabled", "1", {FCVAR_ARCHIVE}, "" )
-    CreateConVar( "mdisasters_hud_temperature_enabled", "1", {FCVAR_ARCHIVE}, "" )
-    CreateConVar( "mdisasters_hud_damage_oxygen_enabled", "1", {FCVAR_ARCHIVE}, "" )
-    CreateConVar( "mdisasters_hud_damage_temperature_enabled", "1", {FCVAR_ARCHIVE}, "" )
+    CreateConVar( "MDisasters_hud_oxygen_enabled", "1", {FCVAR_ARCHIVE}, "" )
+    CreateConVar( "MDisasters_hud_temperature_enabled", "1", {FCVAR_ARCHIVE}, "" )
+    CreateConVar( "MDisasters_hud_damage_oxygen_enabled", "1", {FCVAR_ARCHIVE}, "" )
+    CreateConVar( "MDisasters_hud_damage_temperature_enabled", "1", {FCVAR_ARCHIVE}, "" )
     
-    concommand.Add("mdisasters_setwind", function(cmd, args, wind)
+    concommand.Add("MDisasters_setwind", function(cmd, args, wind)
         local speed = wind[1]
-        mdisasters.weather.target.Wind.speed = tonumber(speed)
+        MDisasters.weather.target.Wind.speed = tonumber(speed)
     end)
 
-    concommand.Add("mdisasters_setwind_direction", function(cmd, args, wind)
+    concommand.Add("MDisasters_setwind_direction", function(cmd, args, wind)
         local direction = Vector(tonumber(wind[1]), tonumber(wind[2]), tonumber(wind[3]))
-        mdisasters.weather.target.Wind.dir  = direction
+        MDisasters.weather.target.Wind.dir  = direction
     end)
 
 
-    concommand.Add("mdisasters_setbody_temp", function(cmd, args, temp)
+    concommand.Add("MDisasters_setbody_temp", function(cmd, args, temp)
         for k, v in pairs(player.GetAll()) do
             local temperature = temp[1]
-            v.mdisasters.body.Temperature = tonumber(temperature)
+            v.MDisasters.body.Temperature = tonumber(temperature)
         
         end
     end)
 
-    concommand.Add("mdisasters_setbody_oxygen", function(cmd, args, O2)
+    concommand.Add("MDisasters_setbody_oxygen", function(cmd, args, O2)
         for k, v in pairs(player.GetAll()) do
             local Oxygen = O2[1]
-            v.mdisasters.body.Oxygen = tonumber(Oxygen)
+            v.MDisasters.body.Oxygen = tonumber(Oxygen)
         
         end
     end)
 
-    concommand.Add("mdisasters_setpressure", function(cmd, args, pressure)
+    concommand.Add("MDisasters_setpressure", function(cmd, args, pressure)
         local press = pressure[1]
-        mdisasters.weather.target.Pressure = tonumber(press)
+        MDisasters.weather.target.Pressure = tonumber(press)
     end)
 
-    concommand.Add("mdisasters_sethumidity", function(cmd, args, humidity)
+    concommand.Add("MDisasters_sethumidity", function(cmd, args, humidity)
         local humi =  humidity[1]
-        mdisasters.weather.target.Humidity = tonumber(humi)
+        MDisasters.weather.target.Humidity = tonumber(humi)
     end)
 
-    concommand.Add("mdisasters_settemp", function(cmd, args, temp)
+    concommand.Add("MDisasters_settemp", function(cmd, args, temp)
         local temperature = temp[1]
-        mdisasters.weather.target.Temperature = tonumber(temperature)
+        MDisasters.weather.target.Temperature = tonumber(temperature)
     end)
 
 end
 
 
-hook.Add( "InitPostEntity", "mdisasters_convars_init_sh", convars)
+hook.Add( "InitPostEntity", "MDisasters_convars_init_sh", convars)

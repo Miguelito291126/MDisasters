@@ -22,7 +22,7 @@ function ENT:Initialize()
 	CSPatch:Play()
 	self.Sounds = CSPatch
 
-    timer.Create("Lava_Erupt",  GetConVar("mdisasters_volcano_time"):GetInt(), 0, function()
+    timer.Create("Lava_Erupt",  GetConVar("MDisasters_volcano_time"):GetInt(), 0, function()
         if !self:IsValid() then return end
         self:VolcanoErupt() 
     end)
