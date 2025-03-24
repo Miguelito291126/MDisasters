@@ -137,18 +137,17 @@ end
 function Wind()
     local Direction = mdisasters.weather.Wind.dir
     local Force = mdisasters.weather.Wind.speed
-    
-    SetGlobalFloat("wind_speed", Force)
-    SetGlobalVector("wind_dir", Direction)
-
     local windVec = Direction:GetNormalized() * Force
     local ents = ents.GetAll()
+
+    SetGlobalFloat("wind_speed", Force)
+    SetGlobalVector("wind_dir", Direction)
 
     for _, ent in ipairs(ents) do
         if ent:IsValid() then
 
             if ent:IsPlayer() or ent:IsNPC() then
-                if isOutdoor(ent) then
+                if isOutdoor(ent) and !IsSomethingBlockingWind(ent) then
                     ent:SetVelocity(windVec)
                     
                     if ent:IsPlayer() then

@@ -110,3 +110,19 @@ function isOutdoor(ent)
     return tr.HitSky  -- Si no golpea nada arriba, está al aire libre
 end
 
+
+function IsSomethingBlockingWind(entity)
+
+
+	local tr = util.TraceLine( {
+		start = entity:GetPos() + Vector(0,0,10),
+		endpos = entity:GetPos() + Vector(0,0,10) + (mdisasters.weather.Wind.dir * 300),
+		filter = entity
+
+	} )
+
+
+
+	return tr.Hit
+end
+

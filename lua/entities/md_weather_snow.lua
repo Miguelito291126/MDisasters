@@ -95,10 +95,6 @@ function ENT:OnRemove()
 		end
 
 		setMapLight("t")
-        
-        net.Start("md_stoploopsound")
-        net.WriteString("weather/wind/wind_effect.wav")
-        net.Broadcast()
     end
 end
 
