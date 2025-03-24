@@ -42,14 +42,11 @@ function ENT:Initialize()
         dir:Normalize()
         self.Direction = dir
         self.NextDirectionChange = CurTime() + 5
-        self.NextPhysicsTime = CurTime()
+        self.Radius = GetConVar("mdisasters_tornado_radius"):GetInt()
+        self.MaxForce = GetConVar("mdisasters_tornado_force"):GetInt()
+        self.Speed = GetConVar("mdisasters_tornado_speed"):GetInt()
 
-        self.MaxGroundFunnelHeight = 100
-        self.Radius = GetConVar("MDisasters_tornado_radius"):GetInt()
-        self.Force = GetConVar("MDisasters_tornado_force"):GetInt()
-        self.Speed = GetConVar("MDisasters_tornado_speed"):GetInt()
-
-        timer.Simple(GetConVar("MDisasters_tornado_time"):GetInt(), function()
+        timer.Simple(GetConVar("mdisasters_tornado_time"):GetInt(), function()
             if not self:IsValid() then return end
             self:Remove()
         end)
@@ -58,48 +55,47 @@ function ENT:Initialize()
     end
 end
 
-function ENT:PerpVectorCW(ent1, ent2)
-	local ent1_pos = ent1:GetPos()
-	local ent2_pos = ent2:GetPos()
-	
-	local dir      = (ent2_pos - ent1_pos):GetNormalized()
-	local perp     = Vector(-dir.y, dir.x, 0)
-	
-	return perp
-
-end
-
 function ENT:Physics()
-    local phys_scalar = 1
-
-    local wind_speed_mod = (self.Force / 323) * 5
-
+    local tornadoPos = self:GetPos()
     for _, ent in ipairs(ents.GetAll()) do
         if ent:IsValid() then
-            local distSqr = ent:GetPos():DistToSqr(self:GetPos())
-            if distSqr < self.Radius^2 and distSqr > 0 then
-                local suctional_dir = (Vector(self:GetPos().x, self:GetPos().y, ent:GetPos().z + self.MaxGroundFunnelHeight) - ent:GetPos()):GetNormalized()
-                local tangential_dir = self:PerpVectorCW(self, ent)
+            local distSqr = ent:GetPos():DistToSqr(tornadoPos)
+            if distSqr < self.Radius ^ 2 and distSqr > 0 then
+                local distance = math.sqrt(distSqr)
 
-                local suctional_force = suctional_dir * 50 * wind_speed_mod
-                local tangential_force = tangential_dir * 50 * wind_speed_mod
-                local updraft_force = Vector(0, 0, wind_speed_mod / 5 * 110)
+                -- Fracción de cercanía (1 cerca del centro, 0 en el borde)
+                local distanceFraction = 1 - (distance / self.Radius)
+                distanceFraction = math.Clamp(distanceFraction, 0, 1)
 
-                local total_force = suctional_force + Vector(tangential_force.x, tangential_force.y, 0) + updraft_force
+                -- Fuerza proporcional a cercanía al centro (decay cuadrático)
+                local forceMagnitude = self.MaxForce * distanceFraction ^ 2
 
-                if ent:IsPlayer() or ent:IsNPC() then
-                    ent:SetVelocity(total_force)
+                -- Direcciones de fuerza
+                local direction = (tornadoPos - ent:GetPos()):GetNormalized()
+                direction.z = 0  -- solo horizontal
+                local pullForce = direction * forceMagnitude
+
+                local verticalForce = Vector(0, 0, forceMagnitude * 0.5)
+                local vortexDir = Vector(-direction.y, direction.x, 0)
+                local vortexForce = vortexDir * (forceMagnitude * 0.4)
+
+                local totalForce = pullForce + verticalForce + vortexForce
+
+
+                if ent:GetPhysicsObject():IsValid() then
+                    local phys = ent:GetPhysicsObject()
+                    phys:AddVelocity(totalForce)
+                    if GetConVar( "MDisasters_tornado_constraints_damage" ):GetInt()!=1 then return end
+                    if HitChance(GetConVar( "MDisasters_tornado_constraints_damage" ):GetInt()) then
+                        constraint.RemoveAll(ent)
+                        phys:EnableMotion(true)
+                        phys:Wake()
+                    end
                 end
                 
-                if ent:GetPhysicsObject():IsValid() then
-                    ent:GetPhysicsObject():AddVelocity(total_force)
-                    
-                    if GetConVar( "MDisasters_tornado_constraints_damage" ):GetInt()!=1 then return end
-                    
-                    if HitChance(GetConVar( "MDisasters_tornado_constraints_damage" ):GetInt()) then
-                        constraint.RemoveAll( ent )
-                        ent:GetPhysicsObject():EnableMotion( true )
-                    end
+                -- Aplicar fuerza a jugadores y NPCs
+                if ent:IsPlayer() or ent:IsNPC() then
+                    ent:SetVelocity(totalForce * 2)
                 end
             end
         end
