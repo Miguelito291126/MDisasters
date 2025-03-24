@@ -83,7 +83,6 @@ local function MDisastersSettings( CPanel )
     CreateTickboxConVariable(CPanel, "Enable Temp" ,"MDisasters_hud_temperature_enabled");
     CreateTickboxConVariable(CPanel, "Enable Oxygen Damage" ,"MDisasters_hud_damage_oxygen_enabled");
     CreateTickboxConVariable(CPanel, "Enable Temp Damage" ,"MDisasters_hud_damage_temperature_enabled");
-
 end
 
 local function MDisastersSettingsClient( CPanel )
@@ -101,7 +100,7 @@ local function MDisastersSettingsServer( CPanel )
 	CreateSliderConVariable(CPanel, "Earthquake Remove Time", 0, 10000, 0, "MDisasters_earthquake_time")
 	CreateSliderConVariable(CPanel, "Earthquake Shake Force", 0, 10000, 0, "MDisasters_earthquake_shake_force")
 	CreateSliderConVariable(CPanel, "Volcano Time", 0, 10000, 0, "MDisasters_volcano_time")
-
+	CreateSliderConVariable(CPanel, "Tornado Constrains Damage", 0, 10000, 0, "MDisasters_tornado_constraints_damage")
 end
 
 hook.Add( "AddToolMenuTabs", "MDisasters_Tab", function()
