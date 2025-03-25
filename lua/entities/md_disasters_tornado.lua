@@ -40,7 +40,6 @@ function ENT:Initialize()
         dir.z = 0
         dir:Normalize()
         self.Direction = dir
-        self.NextDirectionChange = CurTime() + 5
         self.Radius = GetConVar("mdisasters_tornado_radius"):GetInt()
         self.Force = GetConVar("mdisasters_tornado_force"):GetInt()
         self.Speed = GetConVar("mdisasters_tornado_speed"):GetInt()
@@ -72,32 +71,31 @@ function ENT:Physics()
                 -- Direcciones de fuerza (movimiento circular)
                 local direction = (tornadoPos - ent:GetPos()):GetNormalized()
                 direction.z = 0  -- solo horizontal
-                local tangentialDir = Vector(-direction.y, direction.x, 0)  -- Dirección tangencial para movimiento circular
+                local tangentialDir = Vector(-direction.y, direction.x, 0)
 
-                -- Aplicar fuerzas de movimiento circular
-                local pullForce = direction * forceMagnitude
-                local circularForce = tangentialDir * forceMagnitude * 0.5  -- Aumento para hacer que el movimiento circular sea más notorio
+                -- Aplicar fuerzas
+                local pullForce = direction * (forceMagnitude * 0.5)  -- Reducido para que no jale tan fuerte al centro
+                local circularForce = tangentialDir * (forceMagnitude * 1.2)  -- Aumentado para más giro
 
-                local verticalForce = Vector(0, 0, forceMagnitude * 0.5)
+                local verticalForce = Vector(0, 0, forceMagnitude * 1.5)  -- Aumentado para más altura
                 local vortexDir = Vector(-direction.y, direction.x, 0)
-                local vortexForce = vortexDir * (forceMagnitude * 0.4)
+                local vortexForce = vortexDir * (forceMagnitude * 0.8)  -- Puede combinarse con circularForce
 
-                local totalForce = pullForce + verticalForce + vortexForce + circularForce  -- Añadir fuerza circular
+                local totalForce = pullForce + verticalForce + circularForce + vortexForce
 
                 if ent:GetPhysicsObject():IsValid() then
                     local phys = ent:GetPhysicsObject()
                     phys:AddVelocity(totalForce)
-                    if GetConVar( "MDisasters_tornado_constraints_damage" ):GetInt()!=1 then return end
-                    if HitChance(GetConVar( "MDisasters_tornado_constraints_damage" ):GetInt()) then
+
+                    if GetConVar("MDisasters_tornado_constraints_damage"):GetInt() ~= 1 then return end
+                    if HitChance(GetConVar("MDisasters_tornado_constraints_damage"):GetInt()) then
                         constraint.RemoveAll(ent)
                         phys:EnableMotion(true)
                         phys:Wake()
                     end
                 end
-                
-                -- Aplicar fuerza a jugadores y NPCs para movimiento circular
+
                 if ent:IsPlayer() or ent:IsNPC() then
-                    -- Para los jugadores y NPCs, también se añade el movimiento circular
                     ent:SetVelocity(totalForce * 2)
                 end
             end
@@ -118,7 +116,6 @@ function ENT:BounceFromWalls(dir)
 
 	if tr.Hit then
         self.Direction = -dir
-		self.NextDirectionChange = CurTime() + 5
 	end
 end
 
@@ -160,7 +157,7 @@ function ENT:Think()
         self:Physics()
         self:Move()
 
-        self:NextThink(CurTime())
+        self:NextThink(CurTime() )
         return true
     end 
 end
