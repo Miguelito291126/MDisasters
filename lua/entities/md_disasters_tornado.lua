@@ -141,6 +141,8 @@ function ENT:Move()
     if tr.Hit then
         -- Coloca el tornado a una altura fija sobre el suelo
         nextPos.z = tr.HitPos.z + 50  -- 50 unidades sobre el suelo
+    else
+        nextPos.z = nextPos.z - 50  -- 50 unidades sobre el suelo
     end
 
     self:SetPos(nextPos)
