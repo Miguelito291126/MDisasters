@@ -7,7 +7,10 @@ ENT.AdminOnly = false
 ENT.Category = "MDisasters"
 
 function ENT:Initialize()
-
+    if CLIENT then
+        LocalPlayer().Sounds.rain = CreateLoopedSound(LocalPlayer(), "weather/rain/rain_effect.wav")
+        LocalPlayer().Sounds.rain:Play()
+    end
 
 
     if SERVER then
@@ -28,10 +31,6 @@ function ENT:Initialize()
         self.Original_SkyData["TopColor"]    = Vector(0.2, 0.2, 0.2)
         self.Original_SkyData["BottomColor"] = Vector(0.2, 0.2, 0.2)
         self.Original_SkyData["DuskScale"]   = 0
-		
-        net.Start("md_sendloopsound")
-        net.WriteString("weather/rain/rain_effect.wav")
-        net.Broadcast()
 
 		for i=0, 100 do
 			timer.Simple(i/100, function()
@@ -63,6 +62,9 @@ function ENT:RainEffect()
 end
 
 function ENT:OnRemove()
+    if CLIENT then
+        LocalPlayer().Sounds.rain:Stop()
+    end  
 	if (SERVER) then		
        MDisasters.weather.target.Wind.dir =MDisasters.weather.original.Wind.dir 
        MDisasters.weather.target.Wind.speed =MDisasters.weather.original.Wind.speed

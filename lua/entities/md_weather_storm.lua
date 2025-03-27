@@ -7,7 +7,10 @@ ENT.AdminOnly = false
 ENT.Category = "MDisasters"
 
 function ENT:Initialize()
-    
+    if CLIENT then
+        LocalPlayer().Sounds.rain = CreateLoopedSound(LocalPlayer(), "weather/rain/rain_effect.wav")
+        LocalPlayer().Sounds.rain:Play()
+    end  
 
 
     if SERVER then
@@ -37,9 +40,6 @@ function ENT:Initialize()
 			end)
 		end 
 
-        net.Start("md_sendloopsound")
-        net.WriteString("weather/rain/rain_effect.wav")
-        net.Broadcast()
 
         setMapLight("d")
 
@@ -95,6 +95,10 @@ function ENT:Think()
 end
 
 function ENT:OnRemove()
+
+    if CLIENT then
+        LocalPlayer().Sounds.rain:Stop()
+    end  
 
 	if (SERVER) then		
         linghting = ents.FindByClass("md_weather_lightning_storm")[1]

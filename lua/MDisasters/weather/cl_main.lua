@@ -21,22 +21,22 @@ function WindControl()
 	local wind_mod_vol  = math.Clamp( ( (local_wind-20) / 60), 0, 1) * outside_fac 		
 	local wind_str_vol  = math.Clamp( ( (local_wind-80) / 120), 0, 1) * outside_fac 	
 	
-	if LocalPlayer().Sounds["Wind_Heavy"] == nil then
+	if LocalPlayer().Sounds.Wind_Heavy == nil then
 		
 		
-		LocalPlayer().Sounds["Wind_Light"]         = CreateLoopedSound(LocalPlayer(), "weather/wind/wind_effect.wav")
-		LocalPlayer().Sounds["Wind_Moderate"]      = CreateLoopedSound(LocalPlayer(), "weather/wind/wind_effect.wav")
-		LocalPlayer().Sounds["Wind_Heavy"]         = CreateLoopedSound(LocalPlayer(), "weather/wind/wind_effect.wav")
+		LocalPlayer().Sounds.Wind_Light        = CreateLoopedSound(LocalPlayer(), "weather/wind/wind_effect.wav")
+		LocalPlayer().Sounds.Wind_Moderate   = CreateLoopedSound(LocalPlayer(), "weather/wind/wind_effect.wav")
+		LocalPlayer().Sounds.Wind_Heavy         = CreateLoopedSound(LocalPlayer(), "weather/wind/wind_effect.wav")
 		
-		LocalPlayer().Sounds["Wind_Light"]:ChangeVolume(0, 0)
-		LocalPlayer().Sounds["Wind_Moderate"]:ChangeVolume(0, 0)
-		LocalPlayer().Sounds["Wind_Heavy"]:ChangeVolume(0, 0)
+		LocalPlayer().Sounds.Wind_Light:ChangeVolume(0, 0)
+		LocalPlayer().Sounds.Wind_Moderate:ChangeVolume(0, 0)
+		LocalPlayer().Sounds.Wind_Heavy:ChangeVolume(0, 0)
 						
 	end
 
-	LocalPlayer().Sounds["Wind_Light"]:ChangeVolume(wind_weak_vol, 0)
-	LocalPlayer().Sounds["Wind_Moderate"]:ChangeVolume(wind_mod_vol, 0)
-	LocalPlayer().Sounds["Wind_Heavy"]:ChangeVolume(wind_str_vol, 0)		
+	LocalPlayer().Sounds.Wind_Light:ChangeVolume(wind_weak_vol, 0)
+	LocalPlayer().Sounds.Wind_Moderate:ChangeVolume(wind_mod_vol, 0)
+	LocalPlayer().Sounds.Wind_Heavy:ChangeVolume(wind_str_vol, 0)		
 	
 	
 end
