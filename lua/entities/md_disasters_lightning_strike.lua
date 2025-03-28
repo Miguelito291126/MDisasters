@@ -24,16 +24,19 @@ function ENT:Initialize()
         self:SetNWFloat("BeamStartTime", CurTime())
         self:SetNWFloat("BeamDuration", 1.0)
 
-        sound.Play("ambient/energy/zap1.wav", endPos, 120, 100, 1)
+        sound.Play("weather/thunder/thunder_effect.wav", endPos, 120, 100, 1)
 
-        local explosion = ents.Create("env_explosion")
-        if IsValid(explosion) then
-            explosion:SetPos(endPos)
-            explosion:SetOwner(self)
-            explosion:Spawn()
-            explosion:SetKeyValue("iMagnitude", "100")
-            explosion:Fire("Explode", "", 0)
-        end
+        local pe = ents.Create( "env_physexplosion" );
+        pe:SetPos( self:GetPos() );
+        pe:SetKeyValue( "Magnitude", 50);
+        pe:SetKeyValue( "radius", 40 );
+        pe:SetKeyValue( "spawnflags", 19 );
+        pe:Spawn();
+        pe:Activate();
+        pe:Fire( "Explode", "", 0 );
+        pe:Fire( "Kill", "", 0.5 );
+
+        util.BlastDamage( self, self, self:GetPos(), 32, math.random( 10000, 40000 ) )
 
         ParticleEffect("lightning_strike", endPos, Angle(0, 0, 0), self)
 
