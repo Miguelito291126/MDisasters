@@ -45,43 +45,37 @@ function ENT:DoEarthquake()
     util.ScreenShake(pos, self.ShakeIntensity, self.ShakeFreq, self.ShakeDuration, self.Radius)
 
     for _, ent in ipairs(ents.GetAll()) do
+        local dist = pos:Distance(ent:GetPos())
+
         if ent:IsPlayer() or ent:IsNPC() then
             -- ⚡ Empuje solo horizontal (X, Y), sin levantar en Z
             local randVec = VectorRand()
-            randVec.z = 0  -- Elimina componente vertical
+            randVec.z = 0  
             local pushForce = randVec:GetNormalized() * self.PushForcePlayer
 
-            if ent:IsOnGround() then
+            if ent:OnGround() then
                 ent:SetVelocity(pushForce)
             end
         else
             local phys = ent:GetPhysicsObject()
             if phys:IsValid() then
+                local randVec = VectorRand()
+                randVec.z = 0 
 
+                -- Calcula una fuerza decreciente según la distancia
+                local forceScale = math.Clamp(1 - (dist / self.Radius), 0, 1)  
+                local scaledForce = randVec * (self.PushForce * forceScale)
 
-                -- Trazar una línea hacia abajo desde el centro de la entidad para ver si está tocando el suelo
-                local startPos = ent:GetPos()
-                local endPos = startPos - Vector(0, 0, 10)  -- 10 unidades hacia abajo
-                local traceData = {
-                    start = startPos,
-                    endpos = endPos,
-                    filter = ent
-                }
-                local traceResult = util.TraceLine(traceData)
+                -- Aplica el empuje con offset para girar los objetos
+                local forceOffset = ent:GetPos() + VectorRand() * 10
+                phys:EnableMotion(true) 
+                phys:Wake()
+                phys:ApplyForceOffset(scaledForce, forceOffset)
 
-                if traceResult.Hit then
-                    local mass = phys:GetMass()
-                    local scaledForce = self.PushForce * (mass / 50)  -- Escala por masa (ajusta divisor si es muy fuerte)
-
-                    phys:ApplyForceCenter(VectorRand() * scaledForce)
-                    
-                    if math.random(0, 100) == 100 then
-                        phys:EnableMotion(true)
-                        phys:Wake()
-                        constraint.RemoveAll(ent)
-                    end
+                -- Probabilidad mayor de romper restricciones
+                if math.random(0, 3) == 0 then  -- 25% de probabilidad
+                    constraint.RemoveAll(ent)
                 end
-
             end
         end
     end
