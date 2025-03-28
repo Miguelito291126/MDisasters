@@ -2,7 +2,6 @@ MDisasters.weather = {}
 MDisasters.weather.target = {}
 MDisasters.weather.original = {}
 
-
 MDisasters.weather.Temperature = 23
 MDisasters.weather.Pressure = 1000
 MDisasters.weather.Humidity = 25

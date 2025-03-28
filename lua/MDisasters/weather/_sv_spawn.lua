@@ -1,4 +1,4 @@
-function PostSpawnSV(ply)
+function MDisasters_PostSpawnSV(ply)
     ply.MDisasters = {}
     ply.MDisasters.body = {}
     ply.MDisasters.body.Temperature = 36.6
@@ -8,20 +8,19 @@ function PostSpawnSV(ply)
     ply.MDisasters.Area.Local_wind = 0
     ply.MDisasters.Area.IsOutDoor = false
     
-    ply.Sounds = {}
+    ply.MDisasters.Sounds = {}
 
-    ply:SetNWFloat("BodyTemperature", ply.MDisasters.body.Temperature)
-    ply:SetNWFloat("BodyOxygen", ply.MDisasters.body.Oxygen)
-    ply:SetNWFloat("BodyWind", ply.MDisasters.body.local_wind)
+    ply:SetNWFloat("MDisasters_BodyTemperature", ply.MDisasters.body.Temperature)
+    ply:SetNWFloat("MDisasters_BodyOxygen", ply.MDisasters.body.Oxygen)
+    ply:SetNWFloat("MDisasters_BodyWind", ply.MDisasters.Area.Local_wind)
 end
+hook.Add("PlayerInitialSpawn", "MDisasters_PostSpawnSV", MDisasters_PostSpawnSV)
 
-function PostSpawnSV_Reset(ply)
+function MDisasters_PostSpawnSV_Reset(ply)
     ply.MDisasters.body.Temperature = 36.6
     ply.MDisasters.body.Oxygen = 100
 
-    ply:SetNWFloat("BodyTemperature", ply.MDisasters.body.Temperature)
-    ply:SetNWFloat("BodyOxygen", ply.MDisasters.body.Oxygen)
+    ply:SetNWFloat("MDisasters_BodyTemperature", ply.MDisasters.body.Temperature)
+    ply:SetNWFloat("MDisasters_BodyOxygen", ply.MDisasters.body.Oxygen)
 end
-
-hook.Add("PlayerInitialSpawn", "PostSpawnSV", PostSpawnSV)
-hook.Add("PlayerSpawn", "PostSpawnSV_Reset", PostSpawnSV_Reset)
+hook.Add("PlayerSpawn", "MDisasters_PostSpawnSV_Reset", MDisasters_PostSpawnSV_Reset)

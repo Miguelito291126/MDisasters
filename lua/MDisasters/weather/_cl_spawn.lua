@@ -1,4 +1,4 @@
-function PostSpawnCL(ply)
+function MDisasters_PostSpawnCL(ply)
     LocalPlayer().MDisasters = {}
     
     LocalPlayer().MDisasters.HUD = {}
@@ -17,7 +17,7 @@ function PostSpawnCL(ply)
     LocalPlayer().MDisasters.Outside.IsOutside = false
     LocalPlayer().MDisasters.Outside.OutsideFactor = 0
 
-    LocalPlayer().Sounds = {}
+    LocalPlayer().MDisasters.Sounds = {}
 end
 
-hook.Add("InitPostEntity", "PostSpawncl", PostSpawnCL)
+hook.Add("InitPostEntity", "MDisasters_PostSpawnCL", MDisasters_PostSpawnCL)

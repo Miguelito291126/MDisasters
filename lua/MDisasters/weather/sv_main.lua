@@ -1,8 +1,8 @@
-SetGlobalFloat("temperature", 0)
-SetGlobalFloat("pressure", 0)
-SetGlobalFloat("humidity", 0)
-SetGlobalFloat("wind_speed", 0)
-SetGlobalVector("wind_dir", Vector(1,0,0))
+SetGlobalFloat("MDisasters_temperature", 0)
+SetGlobalFloat("MDisasters_pressure", 0)
+SetGlobalFloat("MDisasters_humidity", 0)
+SetGlobalFloat("MDisasters_wind_speed", 0)
+SetGlobalVector("MDisasters_wind_dir", Vector(1,0,0))
 
 function Weather_Update()
     MDisasters.weather.Temperature = math.Clamp(MDisasters.weather.Temperature, -273.3, 273.3)
@@ -23,6 +23,7 @@ function Weather_Update()
     Pressure()
     Wind()
 end
+hook.Add("Think", "Weather_Update", Weather_Update)
 
 function Temperature()
 
@@ -37,7 +38,7 @@ function Temperature()
 	local fire_heat_emission = 50
     local plys = player.GetAll()
 
-    SetGlobalFloat("temperature", temp)
+    SetGlobalFloat("MDisasters_temperature", temp)
 
     local function updatevars()
         for k,v in pairs(plys) do
@@ -57,7 +58,7 @@ function Temperature()
 
             v.MDisasters.body.Temperature = math.Clamp(v.MDisasters.body.Temperature + core_equilibrium  + heatsource_equilibrium + coldsource_equilibrium + ambient_equilibrium, 24, 44)
             
-            v:SetNWFloat("BodyTemperature", v.MDisasters.body.Temperature)
+            v:SetNWFloat("MDisasters_BodyTemperature", v.MDisasters.body.Temperature)
         end
         
     end
@@ -127,11 +128,11 @@ function Temperature()
 end
 
 function Humidity()
-    SetGlobalVector("humidity", MDisasters.weather.Humidity)   
+    SetGlobalVector("MDisasters_humidity", MDisasters.weather.Humidity)   
 end
 
 function Pressure()
-    SetGlobalVector("pressure", MDisasters.weather.Pressure)   
+    SetGlobalVector("MDisasters_pressure", MDisasters.weather.Pressure)   
 end
 
 function Wind()
@@ -140,8 +141,8 @@ function Wind()
     local windVec = Direction:GetNormalized() * Force
     local ents = ents.GetAll()
 
-    SetGlobalFloat("wind_speed", Force)
-    SetGlobalVector("wind_dir", Direction)
+    SetGlobalVector("MDisasters_wind_speed", Force)
+    SetGlobalVector("MDisasters_wind_dir", Direction)
 
     for _, ply in ipairs(player.GetAll()) do
        
@@ -152,7 +153,7 @@ function Wind()
         local local_windVec = Direction:GetNormalized() * local_wind
          
         ply.MDisasters.Area.Local_wind = local_wind
-        ply:SetNWFloat("BodyWind", local_wind)
+        ply:SetNWFloat("MDisasters_BodyWind", local_wind)
         ply:SetVelocity(local_windVec)
 
 
@@ -229,4 +230,3 @@ function Oxygen()
     delay = CurTime() + 0.5
 end
 
-hook.Add("Think", "Weather_Update", Weather_Update)

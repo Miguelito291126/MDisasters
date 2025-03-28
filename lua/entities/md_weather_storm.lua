@@ -8,8 +8,8 @@ ENT.Category = "MDisasters"
 
 function ENT:Initialize()
     if CLIENT then
-        LocalPlayer().Sounds.rain = CreateLoopedSound(LocalPlayer(), "weather/rain/rain_effect.wav")
-        LocalPlayer().Sounds.rain:Play()
+        LocalPlayer().MDisasters.Sounds.rain = CreateLoopedSound(LocalPlayer(), "weather/rain/rain_effect.wav")
+        LocalPlayer().MDisasters.Sounds.rain:Play()
     end  
 
 
@@ -97,7 +97,7 @@ end
 function ENT:OnRemove()
 
     if CLIENT then
-        LocalPlayer().Sounds.rain:Stop()
+        LocalPlayer().MDisasters.Sounds.rain:Stop()
     end  
 
 	if (SERVER) then		

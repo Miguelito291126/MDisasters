@@ -44,7 +44,7 @@ function AddMDisastersSpawn(name, class, category, adminonly)
 	end
 end
 
-hook.Add( "HookWeather", "AddWeatherContent", function( pnlContent, tree, node )
+hook.Add( "HookWeather", "MDisasters_AddWeatherContent", function( pnlContent, tree, node )
 
 	local dtree = tree:AddNode("Weather", "icon16/weather_rain.png")
     local WeatherCategory = {}
@@ -90,7 +90,7 @@ hook.Add( "HookWeather", "AddWeatherContent", function( pnlContent, tree, node )
 
 end )
 
-hook.Add( "HookDisasters", "AddDisastersContent", function( pnlContent, tree, node )
+hook.Add( "HookDisasters", "MDisasters_AddDisastersContent", function( pnlContent, tree, node )
 
 	local dtree = tree:AddNode("Disasters", "icon16/weather_lightning.png")
     local DisastersCategory = {}
@@ -138,7 +138,7 @@ hook.Add( "HookDisasters", "AddDisastersContent", function( pnlContent, tree, no
 
 end )
 
-hook.Add( "HookWeapons", "AddWeaponsContent", function( pnlContent, tree, node )
+hook.Add( "HookWeapons", "MDisasters_AddWeaponsContent", function( pnlContent, tree, node )
 
 	local dtree = tree:AddNode("Weapons", "icon16/wrench.png")
 

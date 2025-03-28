@@ -4,7 +4,7 @@ net.Receive("md_clparticles", function()
 	ParticleEffect( effect, LocalPlayer():GetPos(), angle, nil )
 end)
 
-net.Receive("gd_clParticles_ground", function()
+net.Receive("md_clParticles_ground", function()
 	for k,v in pairs(player.GetAll()) do
 		if !v:IsOnGround() then return end
 	end

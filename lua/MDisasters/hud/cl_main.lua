@@ -4,20 +4,20 @@ hook.Add("HUDPaint", "MDisasters_HUDPaint", function()
     local w, h = ScrW(), ScrH() 
 
     -- Clima global
-    local temperature = math.Clamp(GetGlobalVector("temperature") or 0, -273.3, 273.3)
-    local humidity = math.Clamp(GetGlobalVector("humidity") or 0, 0, 100)
-    local pressure = math.Clamp(GetGlobalVector("pressure") or 1013, 950, 1050)
-    local windSpeed = math.Clamp(GetGlobalVector("wind_speed") or 0, 0, 200)  -- km/h
-    local windDir = GetGlobalVector("wind_dir")
+    local temperature = math.Clamp(GetGlobalVector("MDisasters_temperature") or 0, -273.3, 273.3)
+    local humidity = math.Clamp(GetGlobalVector("MDisasters_humidity") or 0, 0, 100)
+    local pressure = math.Clamp(GetGlobalVector("MDisasters_pressure") or 1013, 950, 1050)
+    local windSpeed = math.Clamp(GetGlobalVector("MDisasters_wind_speed") or 0, 0, 200)  -- km/h
+    local windDir = GetGlobalVector("MDisasters_wind_dir")
     local windDirAngle = math.Round(math.NormalizeAngle(convert_VectorToAngle(windDir).y))   -- º
 
     -- Jugador
     local ply = LocalPlayer()
-    local bodyTemp = math.Clamp(ply:GetNWFloat("BodyTemperature") or 37, 25, 45)
-    local bodyOxy = math.Clamp(ply:GetNWFloat("BodyOxygen") or 100, 0, 100)
+    local bodyTemp = math.Clamp(ply:GetNWFloat("MDisasters_BodyTemperature") or 37, 25, 45)
+    local bodyOxy = math.Clamp(ply:GetNWFloat("MDisasters_BodyOxygen") or 100, 0, 100)
 
     -- Velocidad de viento local
-    local localWind = math.Clamp(ply:GetNWFloat("BodyWind") or 0, 0, 200)  -- km/h
+    local localWind = math.Clamp(ply:GetNWFloat("MDisasters_BodyWind") or 0, 0, 200)  -- km/h
     local localWindPerc = localWind / 200
 
     -- Porcentajes globales
