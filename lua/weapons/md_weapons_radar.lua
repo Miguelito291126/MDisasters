@@ -37,7 +37,7 @@ end
 function SWEP:PrimaryAttack()
 	local ply = self:GetOwner()
 	ply:PrintMessage(HUD_PRINTCENTER, "I don't detect anything")
-	for k, v in pairs(ents.FindByClass("md_disasters_EF*")) do
+	for k, v in pairs(ents.FindByClass("md_disasters_ef*")) do
 		if v:IsValid() then
 			ply:PrintMessage(HUD_PRINTCENTER, "Radar Dectect: " .. v.PrintName)
 		end

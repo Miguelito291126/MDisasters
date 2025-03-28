@@ -1,7 +1,7 @@
 -- Disasters
 AddMDisastersSpawn("Meteor", "md_disasters_meteor", "Disasters", true )
 AddMDisastersSpawn("Volcano", "md_disasters_volcano", "Disasters", true )
-AddMDisastersSpawn("Tornado EF1", "md_disasters_EF1_tornado", "Disasters", true )
+AddMDisastersSpawn("Tornado EF1", "md_disasters_ef1_tornado", "Disasters", true )
 AddMDisastersSpawn("Earthquake", "md_disasters_earthquake", "Disasters", true )
 AddMDisastersSpawn("Lighting Strike", "md_disasters_lightning_strike", "Disasters", true )
 
