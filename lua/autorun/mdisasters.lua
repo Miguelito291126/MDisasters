@@ -1,7 +1,7 @@
 MDisasters = {}
 MDisasters.name = "MDisasters"
 MDisasters.author = "Miguelillo948"
-MDisasters.version = "0.0.2"
+MDisasters.version = "0.0.2.1"
 
 function msg(...)
     local args = {...}
