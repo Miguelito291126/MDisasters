@@ -4,15 +4,13 @@ ENT.Base 			= "base_anim"
 
 ENT.Spawnable = false
 ENT.AdminOnly = false
-ENT.PrintName = "Tornado"
+ENT.PrintName = "EF1 Tornado"
 
 ENT.Category = "MDisasters"
 
 ENT.EnhancedFujitaScale = "EF1"
 ENT.Model = "models/props_c17/oildrum001.mdl"
 ENT.Mass = 100
-
-
 
 
 function ENT:Initialize()

@@ -31,7 +31,6 @@ function AddMDisastersSpawn(name, class, category, adminonly)
 			Category = category, 
 			AdminOnly = adminonly, 
 			Spawnable = true,
-            Offset = 0
 		})
 		list.Set( "MD_Weapons", class, {
 			Name = name,
@@ -39,7 +38,6 @@ function AddMDisastersSpawn(name, class, category, adminonly)
 			Category = category, 
 			AdminOnly = adminonly,
 			Spawnable = true,
-            Offset = 0
 		})
 	end
 end
@@ -143,10 +141,10 @@ hook.Add( "HookWeapons", "MDisasters_AddWeaponsContent", function( pnlContent, t
 	local dtree = tree:AddNode("Weapons", "icon16/wrench.png")
 
     local WeaponsCategory = {}
-    local SpawnableWeatherList = list.Get("MD_Weapons")
+    local SpawnableWeaponsList = list.Get("MD_Weapons")
 
-    if SpawnableWeatherList then
-        for k, v in pairs(SpawnableWeatherList) do
+    if SpawnableWeaponsList then
+        for k, v in pairs(SpawnableWeaponsList) do
             WeaponsCategory[v.Category] = WeaponsCategory[v.Category] or {}
             table.insert(WeaponsCategory[v.Category], v)
         end
@@ -165,7 +163,7 @@ hook.Add( "HookWeapons", "MDisasters_AddWeaponsContent", function( pnlContent, t
                 
                 spawnmenu.CreateContentIcon( "weapon", self.PropPanel, 
                 { 
-                    nicename	= swep.PrintName or ent.Name,
+                    nicename	= swep.PrintName or swep.Name,
                     spawnname	= swep.Class,
                     material	= "weapon/" .. swep.Class .. ".png",
                     admin		= swep.AdminOnly or false
