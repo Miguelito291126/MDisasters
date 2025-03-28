@@ -165,7 +165,7 @@ function Wind()
             if phys:IsValid() then
                 if Force >= 25 then
                     -- Solo afectar props si están al aire libre
-                    if isOutdoor(ent) then
+                    if isOutdoor(ent) and !IsSomethingBlockingWind(ent) then
                         phys:AddVelocity(windVec)
                         
                         if math.random(0,25) == 25 then
@@ -176,13 +176,13 @@ function Wind()
                     end
                 else
                     -- Solo afectar props si están al aire libre
-                    if isOutdoor(ent) then
+                    if isOutdoor(ent) and !IsSomethingBlockingWind(ent) then
                         phys:AddVelocity(windVec)
                     end
                 end 
             end
             if ent:IsNPC() then
-                if isOutdoor(ent) then
+                if isOutdoor(ent) and !IsSomethingBlockingWind(ent) then
                     ent:SetVelocity(windVec)  
                 end      
             end     
