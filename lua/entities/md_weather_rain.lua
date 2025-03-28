@@ -64,6 +64,7 @@ end
 function ENT:OnRemove()
     if CLIENT then
         LocalPlayer().MDisasters.Sounds.rain:Stop()
+        LocalPlayer().MDisasters.Sounds.rain = nil
     end  
 	if (SERVER) then		
        MDisasters.weather.target.Wind.dir =MDisasters.weather.original.Wind.dir 
@@ -85,17 +86,19 @@ function ENT:OnRemove()
 		end
 
 		setMapLight("t")
-        
-        net.Start("md_stoploopsound")
-        net.WriteString("weather/rain/rain_effect.wav")
-        net.Broadcast()
     end
 end
 
 function ENT:Think()
     local t =  (FrameTime() / 0.1) / (66.666 / 0.1) -- tick dependant function that allows for constant think loop regardless of server tickrate
 
-
+    if (CLIENT) then
+        if LocalPlayer().MDisasters.Outside.IsOutside then
+            LocalPlayer().MDisasters.Sounds.rain:ChangeVolume(1)
+        else
+            LocalPlayer().MDisasters.Sounds.rain:ChangeVolume(0.5)
+        end
+    end
     if (SERVER) then
         self:RainEffect()
         self:NextThink(CurTime() +  t)

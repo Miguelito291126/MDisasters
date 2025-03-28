@@ -40,7 +40,7 @@ function ENT:Think()
                 end
             end
 
-            self.NextStrikeTime = CurTime() + math.Rand(0.5, 1.5)  -- Delay aleatorio entre rayos
+            self.NextStrikeTime = CurTime() + math.Rand(2.5, 5.5)  -- Delay aleatorio entre rayos
         end
 
         self:NextThink(CurTime())

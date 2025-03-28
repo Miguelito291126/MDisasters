@@ -86,6 +86,13 @@ end
 function ENT:Think()
     local t =  (FrameTime() / 0.1) / (66.666 / 0.1) -- tick dependant function that allows for constant think loop regardless of server tickrate
 
+    if (CLIENT) then
+        if LocalPlayer().MDisasters.Outside.IsOutside then
+            LocalPlayer().MDisasters.Sounds.rain:ChangeVolume(1)
+        else
+            LocalPlayer().MDisasters.Sounds.rain:ChangeVolume(0.5)
+        end
+    end
     if SERVER then
         if !self:IsValid() then return end
         self:RainEffect() 
@@ -98,6 +105,7 @@ function ENT:OnRemove()
 
     if CLIENT then
         LocalPlayer().MDisasters.Sounds.rain:Stop()
+        LocalPlayer().MDisasters.Sounds.rain = nil
     end  
 
 	if (SERVER) then		
