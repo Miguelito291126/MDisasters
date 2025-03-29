@@ -11,9 +11,9 @@ search.AddProvider(
 				table.insert(entities, v)
 			end
 		end
-		searchList("MDisasters_Weapons", "weapon")
-		searchList("MDisasters_Disasters", "entity")
-		searchList("MDisasters_Weather", "entity")
+		searchList("MD_Weapons", "weapon")
+		searchList("MD_Disasters", "entity")
+		searchList("MD_Weather", "entity")
 
 		// searchList("VJBASE_SPAWNABLE_VEHICLES", "vehicle") -- vehicle (Not yet lol)
 		for _, v in pairs(entities) do
@@ -43,9 +43,10 @@ search.AddProvider(
 
 spawnmenu.AddCreationTab("MDisasters", function()
     local ctrl = vgui.Create("SpawnmenuContentPanel")
-    ctrl:CallPopulateHook("MDisasters_Disasters")
-    ctrl:CallPopulateHook("MDisasters_Weather")
-    ctrl:CallPopulateHook("MDisasters_Weapons")
+    ctrl:EnableSearch("MDisastersSearch","PopulateMDisasters_Disasters")
+    ctrl:CallPopulateHook("PopulateMDisasters_Disasters")
+    ctrl:CallPopulateHook("PopulateMDisasters_Weather")
+    ctrl:CallPopulateHook("PopulateMDisasters_Weapons")
     return ctrl
     end, "icon16/weather_clouds.png", 30
 )
@@ -85,7 +86,7 @@ function AddMDisastersSpawn(name, class, category, adminonly)
 	end
 end
 
-hook.Add( "MDisasters_Weather", "MDisasters_AddWeatherContent", function( pnlContent, tree, node )
+hook.Add( "PopulateMDisasters_Weather", "MDisasters_AddWeatherContent", function( pnlContent, tree, node )
 
 	local dtree = tree:AddNode("Weather", "icon16/weather_rain.png")
     local WeatherCategory = {}
@@ -131,7 +132,7 @@ hook.Add( "MDisasters_Weather", "MDisasters_AddWeatherContent", function( pnlCon
 
 end )
 
-hook.Add( "MDisasters_Disasters", "MDisasters_AddDisastersContent", function( pnlContent, tree, node )
+hook.Add( "PopulateMDisasters_Disasters", "MDisasters_AddDisastersContent", function( pnlContent, tree, node )
 
 	local dtree = tree:AddNode("Disasters", "icon16/weather_lightning.png")
     local DisastersCategory = {}
@@ -179,7 +180,7 @@ hook.Add( "MDisasters_Disasters", "MDisasters_AddDisastersContent", function( pn
 
 end )
 
-hook.Add( "MDisasters_Weapons", "MDisasters_AddWeaponsContent", function( pnlContent, tree, node )
+hook.Add( "PopulateMDisasters_Weapons", "MDisasters_AddWeaponsContent", function( pnlContent, tree, node )
 
 	local dtree = tree:AddNode("Weapons", "icon16/wrench.png")
 
