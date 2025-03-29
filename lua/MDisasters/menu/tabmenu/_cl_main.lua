@@ -1,8 +1,51 @@
+search.AddProvider(
+	function(str)
+		local results = {}
+		local entities = {}
+
+		local function searchList(lname, lctype)
+			for k, v in pairs(list.Get(lname)) do
+				v.ClassName = k
+				v.PrintName = v.PrintName or v.Name
+				v.ScriptedEntityType = lctype
+				table.insert(entities, v)
+			end
+		end
+		searchList("MDisasters_Weapons", "weapon")
+		searchList("MDisasters_Disasters", "entity")
+		searchList("MDisasters_Weather", "entity")
+
+		// searchList("VJBASE_SPAWNABLE_VEHICLES", "vehicle") -- vehicle (Not yet lol)
+		for _, v in pairs(entities) do
+			local name = v.PrintName
+			local name_c = v.ClassName
+			if (!name && !name_c) then continue end
+
+			if ((name && name:lower():find(str, nil, true)) or (name_c && name_c:lower():find(str, nil, true))) then
+				local entry = {
+					text = v.PrintName or v.ClassName,
+					icon = spawnmenu.CreateContentIcon(v.ScriptedEntityType or "entity", nil, {
+						nicename = v.PrintName or v.ClassName,
+						spawnname = v.ClassName,
+						material = "entities/" .. v.ClassName .. ".png",
+						admin = v.AdminOnly or false
+					}),
+					words = {v}
+				}
+				table.insert(results, entry)
+			end
+		end
+		table.SortByMember(results, "text", true)
+		return results
+	end, "MDisastersSearch"
+
+)
+
 spawnmenu.AddCreationTab("MDisasters", function()
     local ctrl = vgui.Create("SpawnmenuContentPanel")
-    ctrl:CallPopulateHook("HookDisasters")
-    ctrl:CallPopulateHook("HookWeather")
-    ctrl:CallPopulateHook("HookWeapons")
+    ctrl:CallPopulateHook("MDisasters_Disasters")
+    ctrl:CallPopulateHook("MDisasters_Weather")
+    ctrl:CallPopulateHook("MDisasters_Weapons")
     return ctrl
     end, "icon16/weather_clouds.png", 30
 )
@@ -42,7 +85,7 @@ function AddMDisastersSpawn(name, class, category, adminonly)
 	end
 end
 
-hook.Add( "HookWeather", "MDisasters_AddWeatherContent", function( pnlContent, tree, node )
+hook.Add( "MDisasters_Weather", "MDisasters_AddWeatherContent", function( pnlContent, tree, node )
 
 	local dtree = tree:AddNode("Weather", "icon16/weather_rain.png")
     local WeatherCategory = {}
@@ -88,7 +131,7 @@ hook.Add( "HookWeather", "MDisasters_AddWeatherContent", function( pnlContent, t
 
 end )
 
-hook.Add( "HookDisasters", "MDisasters_AddDisastersContent", function( pnlContent, tree, node )
+hook.Add( "MDisasters_Disasters", "MDisasters_AddDisastersContent", function( pnlContent, tree, node )
 
 	local dtree = tree:AddNode("Disasters", "icon16/weather_lightning.png")
     local DisastersCategory = {}
@@ -136,7 +179,7 @@ hook.Add( "HookDisasters", "MDisasters_AddDisastersContent", function( pnlConten
 
 end )
 
-hook.Add( "HookWeapons", "MDisasters_AddWeaponsContent", function( pnlContent, tree, node )
+hook.Add( "MDisasters_Weapons", "MDisasters_AddWeaponsContent", function( pnlContent, tree, node )
 
 	local dtree = tree:AddNode("Weapons", "icon16/wrench.png")
 
