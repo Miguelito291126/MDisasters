@@ -116,7 +116,7 @@ function IsSomethingBlockingWind(entity)
 
 	local tr = util.TraceLine( {
 		start = entity:GetPos() + Vector(0,0,10),
-		endpos = entity:GetPos() + Vector(0,0,10) + (MDisasters.weather.Wind.dir * 300),
+		endpos = entity:GetPos() + Vector(0,0,10) + (-MDisasters.weather.Wind.dir * 300),
 		filter = entity
 
 	} )
