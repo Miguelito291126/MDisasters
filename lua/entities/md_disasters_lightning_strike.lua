@@ -11,7 +11,7 @@ function ENT:Initialize()
     if SERVER then
         self:SetModel("models/props_junk/PopCan01a.mdl")
 
-        local bounds = getMapSkyBox()
+        local bounds = MDisasters_getMapSkyBox()
         local min = bounds[1]
         local max = bounds[2]
         local currentPos = self:GetPos()

@@ -47,7 +47,7 @@ end
 
 function ENT:SpawnSnowground() 
 	for i=0, 25 do
-		local bounds    = getMapSkyBox()
+		local bounds    = MDisasters_getMapSkyBox()
 		local min       = bounds[1]
 		local max       = bounds[2]
 

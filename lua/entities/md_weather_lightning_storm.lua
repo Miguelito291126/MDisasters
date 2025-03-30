@@ -20,7 +20,7 @@ function ENT:Think()
     if SERVER then
         if CurTime() >= self.NextStrikeTime then
             local origin = self:GetPos()
-            local mapbound = getMapBounds()
+            local mapbound = MDisasters_getMapBounds()
 
             -- Posición aleatoria alrededor
             local strikePos = origin + Vector(math.random(mapbound[1].x, mapbound[2].x), math.random(mapbound[1].y, mapbound[2].y), 0)

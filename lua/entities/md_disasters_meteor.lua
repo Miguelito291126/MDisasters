@@ -125,7 +125,7 @@ function ENT:PhysicsCollide(data, physobj)
 end
 
 function ENT:SetMeteoriteSkyPos()
-    local Zbounds = getMapSkyBox()[2].z
+    local Zbounds = MDisasters_getMapSkyBox()[2].z
 	local startpos  = Vector(self:GetPos().x, self:GetPos().y, self:GetPos().z )
 	local endpos  = Vector(self:GetPos().x, self:GetPos().y, Zbounds)
 

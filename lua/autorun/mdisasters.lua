@@ -38,19 +38,19 @@ local LuaDirectory = "MDisasters"
 local function AddLuaFile( File, directory )
 	local prefix = string.lower(File)
 
-	if prefix:StartWith("sv_") or  prefix:StartWith("_sv_") then
+	if prefix:StartWith("sv_") or prefix:StartWith("_sv_") then
 		if (SERVER) then
 			include( directory .. File )
         	msg("Server Include file: " .. File)
 		end
-	elseif prefix:StartWith("sh_") or  prefix:StartWith("_sh_") then
+	elseif prefix:StartWith("sh_") or prefix:StartWith("_sh_") then
 		if (SERVER) then
 			AddCSLuaFile( directory .. File )
 			msg("Shared ADDC file: " .. File)
 		end
 		include( directory .. File )
 		msg("Shared Include file: " .. File)
-	elseif prefix:StartWith("cl_") or  prefix:StartWith("_cl_")then
+	elseif prefix:StartWith("cl_") or prefix:StartWith("_cl_")then
 		if (SERVER) then
 			AddCSLuaFile( directory .. File )
 			msg("Client ADDC file: " .. File)
