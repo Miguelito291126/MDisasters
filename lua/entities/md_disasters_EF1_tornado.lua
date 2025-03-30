@@ -51,7 +51,7 @@ function ENT:Initialize()
     end
 end
 
-function ENT:Physics()
+function ENT:TornadoPhysics()
     local tornadoPos = self:GetPos()
     for _, ent in ipairs(ents.GetAll()) do
         if ent:IsValid() then
@@ -117,7 +117,7 @@ function ENT:BounceFromWalls(dir)
 	end
 end
 
-function ENT:Move()
+function ENT:TornadoMove()
     -- Cambiar la dirección de forma constante, pero con un cambio más sutil.
     local randomAngle = Angle(0, math.random(-5, 5), 0)  -- Ángulo aleatorio más sutil
     self.Direction:Rotate(randomAngle)
@@ -154,10 +154,10 @@ function ENT:Think()
     if (SERVER) then
         if !self:IsValid() then return end
 
-        self:Physics()
-        self:Move()
+        self:TornadoPhysics()
+        self:TornadoMove()
 
-        self:NextThink(CurTime() )
+        self:NextThink(CurTime())
         return true
     end 
 end
