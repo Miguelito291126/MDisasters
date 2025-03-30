@@ -81,20 +81,20 @@ function ENT:TornadoPhysics()
 
                 local totalForce = pullForce + verticalForce + circularForce + vortexForce
 
-                if ent:GetPhysicsObject():IsValid() then
-                    local phys = ent:GetPhysicsObject()
-                    phys:AddVelocity(totalForce)
-
-                    if GetConVar("MDisasters_tornado_constraints_damage"):GetInt() ~= 1 then return end
-                    if HitChance(GetConVar("MDisasters_tornado_constraints_damage"):GetInt()) then
-                        constraint.RemoveAll(ent)
-                        phys:EnableMotion(true)
-                        phys:Wake()
-                    end
-                end
-
                 if ent:IsPlayer() or ent:IsNPC() then
                     ent:SetVelocity(totalForce * 2)
+                else
+                    if ent:GetPhysicsObject():IsValid() then
+                        local phys = ent:GetPhysicsObject()
+                        phys:AddVelocity(totalForce)
+
+                        if GetConVar("MDisasters_tornado_constraints_damage"):GetInt() ~= 1 then return end
+                        if HitChance(GetConVar("MDisasters_tornado_constraints_damage"):GetInt()) then
+                            constraint.RemoveAll(ent)
+                            phys:EnableMotion(true)
+                            phys:Wake()
+                        end
+                    end
                 end
             end
         end
