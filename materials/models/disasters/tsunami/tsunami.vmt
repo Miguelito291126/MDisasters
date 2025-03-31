@@ -1,0 +1,6 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/disasters/tsunami/tsunami"
+	"$surfaceprop" "Water"
+	"$nocull" 1
+}

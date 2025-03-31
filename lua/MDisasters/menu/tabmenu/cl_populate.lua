@@ -4,6 +4,7 @@ AddMDisastersSpawn("Volcano", "md_disasters_volcano", "Disasters", true )
 AddMDisastersSpawn("Tornado EF1", "md_disasters_ef1_tornado", "Disasters", true )
 AddMDisastersSpawn("Earthquake", "md_disasters_earthquake", "Disasters", true )
 AddMDisastersSpawn("Lighting Strike", "md_disasters_lightning_strike", "Disasters", true )
+AddMDisastersSpawn("Tsunami", "md_disasters_tsunami", "Disasters", true )
 
 -- Weather
 AddMDisastersSpawn("Lighting Storm", "md_weather_lightning_storm", "Weather", true )
@@ -14,8 +15,8 @@ AddMDisastersSpawn("Lighting Storm With Rain", "md_weather_storm", "Weather", tr
 AddMDisastersSpawn("Snow", "md_weather_snow", "Weather", true )
 
 -- Weapons
-AddMDisastersSpawn("Anemometer", "md_weapons_anemometer", "Weapons", true )
-AddMDisastersSpawn("Thermometer", "md_weapons_thermometer", "Weapons", true )
-AddMDisastersSpawn("Hygrometer", "md_weapons_hygrometer", "Weapons", true )
-AddMDisastersSpawn("barometer", "md_weapons_barometer", "Weapons", true )
-AddMDisastersSpawn("Radar", "md_weapons_radar", "Weapons", true )
+AddMDisastersSpawn("Anemometer", "md_weapons_anemometer", "Weapons", false )
+AddMDisastersSpawn("Thermometer", "md_weapons_thermometer", "Weapons", false )
+AddMDisastersSpawn("Hygrometer", "md_weapons_hygrometer", "Weapons", false )
+AddMDisastersSpawn("barometer", "md_weapons_barometer", "Weapons", false )
+AddMDisastersSpawn("Radar", "md_weapons_radar", "Weapons", false )

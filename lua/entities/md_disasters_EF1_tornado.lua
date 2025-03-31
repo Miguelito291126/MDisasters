@@ -48,7 +48,7 @@ function ENT:Initialize()
             self:Remove()
         end)
         
-        ParticleEffectAttach("tornado", PATTACH_POINT_FOLLOW, self, 0)
+        ParticleEffectAttach("tornado_ef1", PATTACH_POINT_FOLLOW, self, 0)
     end
 end
 
