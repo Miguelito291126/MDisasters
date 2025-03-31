@@ -1,7 +1,7 @@
 -- Verifica si el mapa está registrado
 function MDisasters_IsMapRegistered()
     local worldEnts = ents.FindByClass("worldspawn")
-    MDisasters:msg(" Worldspawn entities found: " .. #worldEnts)
+    MDisasters:msg("Worldspawn entities found: " .. #worldEnts)
 
     if #worldEnts > 0 then
         return true
@@ -18,7 +18,7 @@ function MDisasters_getMapBounds()
 
     -- Intentar obtener los límites del mundo
     local minVector, maxVector = game.GetWorld():GetModelBounds()
-	MDisasters:msg(" Raw Map Bounds: Min " .. tostring(minVector) .. " | Max " .. tostring(maxVector))
+	MDisasters:msg("Raw Map Bounds: Min " .. tostring(minVector) .. " | Max " .. tostring(maxVector))
 
     if not minVector or not maxVector then
         MDisasters:error("GetModelBounds() returned nil values")
@@ -45,7 +45,7 @@ function MDisasters_getMapBounds()
     end
 
     local groundPosition = traceResult.HitPos
-    MDisasters:msg(" Ground position detected at: " .. tostring(groundPosition))
+    MDisasters:msg("Ground position detected at: " .. tostring(groundPosition))
 
     return { adjustedMin, adjustedMax, groundPosition }
 end
