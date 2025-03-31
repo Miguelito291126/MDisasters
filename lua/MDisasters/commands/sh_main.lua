@@ -19,7 +19,7 @@ function convars()
     concommand.Add("MDisasters_setbody_temp", function(cmd, args, temp)
         for k, v in pairs(player.GetAll()) do
             local temperature = temp[1]
-            v.MDisasters.body.Temperature = tonumber(temperature)
+            v.MDisasters.Body.Temperature = tonumber(temperature)
         
         end
     end)
@@ -27,7 +27,7 @@ function convars()
     concommand.Add("MDisasters_setbody_oxygen", function(cmd, args, O2)
         for k, v in pairs(player.GetAll()) do
             local Oxygen = O2[1]
-            v.MDisasters.body.Oxygen = tonumber(Oxygen)
+            v.MDisasters.Body.Oxygen = tonumber(Oxygen)
         
         end
     end)

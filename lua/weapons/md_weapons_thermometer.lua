@@ -37,7 +37,7 @@ end
 function SWEP:PrimaryAttack()
 	if CLIENT then return end
 	local ply = self:GetOwner()
-	local temp = math.Round(ply.MDisasters.body.Temperature,1)
+	local temp = math.Round(ply.MDisasters.Body.Temperature,1)
 	local airtemp = math.Round(MDisasters.weather.Temperature,1)
 	ply:PrintMessage(HUD_PRINTCENTER,"Your temp is: ".. temp .."°C, The Air Temp Is: ".. airtemp .." °C")
 end

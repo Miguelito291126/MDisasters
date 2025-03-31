@@ -11,7 +11,7 @@ end
 
 function MDisasters_getMapBounds()
     if not MDisasters_IsMapRegistered() then
-        error("This map has no bounds")
+        MDisasters:error("This map has no bounds")
         return nil
     end
 
@@ -32,13 +32,13 @@ function MDisasters_getMapBounds()
 end
 
 function MDisasters_getMapCeiling()
-	if MDisasters_IsMapRegistered()==false then error("This map no have Ceiling") return nil end 
+	if MDisasters_IsMapRegistered()==false then MDisasters:error("This map no have Ceiling") return nil end 
 
 	return MDisasters_getMapBounds()[2].z
 end
 
 function MDisasters_getMapSkyBox()
-	if MDisasters_IsMapRegistered()==false then error("This map no have SkyBox") return nil end 
+	if MDisasters_IsMapRegistered()==false then MDisasters:error("This map no have SkyBox") return nil end 
 	local bounds = MDisasters_getMapBounds()
 	local min    = bounds[1]
 	local max    = bounds[2]
@@ -48,14 +48,14 @@ end
 
 
 function MDisasters_getMapCenterPos()
-	if MDisasters_IsMapRegistered()==false then error("This map no have CenterPos") return nil end 
+	if MDisasters_IsMapRegistered()==false then MDisasters:error("This map no have CenterPos") return nil end 
 
 	local av         = ((MDisasters_getMapBounds()[1] + MDisasters_getMapBounds()[2])  / 2)
 	return av
 end
 
 function MDisasters_getMapCenterFloorPos()
-	if MDisasters_IsMapRegistered()==false then error("This map no have FloorPos") return nil end 
+	if MDisasters_IsMapRegistered()==false then MDisasters:error("This map no have FloorPos") return nil end 
 
 	return MDisasters_getMapBounds()[3]
 end

@@ -37,10 +37,11 @@ function ENT:Initialize()
         local dir = VectorRand()
         dir.z = 0
         dir:Normalize()
+
         self.Direction = dir
-        self.Radius = GetConVar("MDisasters_tornado_radius"):GetInt()
-        self.Force = GetConVar("MDisasters_tornado_force"):GetInt()
-        self.Speed = GetConVar("MDisasters_tornado_speed"):GetInt()
+        self.Radius = GetConVar("MDisasters_tornado_radius"):GetInt() or 1000 
+        self.Force = GetConVar("MDisasters_tornado_force"):GetInt() or 5000
+        self.Speed = GetConVar("MDisasters_tornado_speed"):GetInt() or 10
 
         timer.Simple(GetConVar("MDisasters_tornado_time"):GetInt(), function()
             if not self:IsValid() then return end
@@ -54,9 +55,9 @@ end
 function ENT:TornadoPhysics()
     local tornadoPos = self:GetPos()
     for _, ent in ipairs(ents.GetAll()) do
-        if ent:IsValid() then
+        if IsValid(ent) then
             local distSqr = ent:GetPos():DistToSqr(tornadoPos)
-            if distSqr < self.Radius ^ 2 and distSqr > 0 then
+            if distSqr < (self.Radius ^ 2) then
                 local distance = math.sqrt(distSqr)
 
                 -- Fracción de cercanía (1 cerca del centro, 0 en el borde)
@@ -68,31 +69,30 @@ function ENT:TornadoPhysics()
 
                 -- Direcciones de fuerza (movimiento circular)
                 local direction = (tornadoPos - ent:GetPos()):GetNormalized()
-                direction.z = 0  -- solo horizontal
+                direction.z = 0  -- Solo horizontal
                 local tangentialDir = Vector(-direction.y, direction.x, 0)
 
                 -- Aplicar fuerzas
                 local pullForce = direction * (forceMagnitude * 0.5)  -- Reducido para que no jale tan fuerte al centro
                 local circularForce = tangentialDir * (forceMagnitude * 1.2)  -- Aumentado para más giro
-
                 local verticalForce = Vector(0, 0, forceMagnitude * 1.5)  -- Aumentado para más altura
-                local vortexDir = Vector(-direction.y, direction.x, 0)
-                local vortexForce = vortexDir * (forceMagnitude * 0.8)  -- Puede combinarse con circularForce
+                local vortexForce = Vector(-direction.y, direction.x, 0) * (forceMagnitude * 0.8)
 
                 local totalForce = pullForce + verticalForce + circularForce + vortexForce
 
                 if ent:IsPlayer() or ent:IsNPC() then
                     ent:SetVelocity(totalForce * 2)
                 else
-                    if ent:GetPhysicsObject():IsValid() then
-                        local phys = ent:GetPhysicsObject()
-                        phys:AddVelocity(totalForce)
+                    local phys = ent:GetPhysicsObject()
+                    if IsValid(phys) then
+                        phys:ApplyForceCenter(totalForce * phys:GetMass())
 
-                        if GetConVar("MDisasters_tornado_constraints_damage"):GetInt() ~= 1 then return end
-                        if HitChance(GetConVar("MDisasters_tornado_constraints_damage"):GetInt()) then
-                            constraint.RemoveAll(ent)
-                            phys:EnableMotion(true)
-                            phys:Wake()
+                        if GetConVar("MDisasters_tornado_constraints_damage"):GetInt() == 1 then
+                            if HitChance(GetConVar("MDisasters_tornado_constraints_damage"):GetInt()) then
+                                constraint.RemoveAll(ent)
+                                phys:EnableMotion(true)
+                                phys:Wake()
+                            end
                         end
                     end
                 end
@@ -100,7 +100,6 @@ function ENT:TornadoPhysics()
         end
     end
 end
-
 function ENT:BounceFromWalls(dir)
 	local selfPos = self:GetPos()
 	local traceStart = selfPos + (dir * self.Speed)
@@ -168,9 +167,5 @@ end
 
 
 function ENT:Draw()
-
-
-
 	self:DrawModel()
-	
 end
