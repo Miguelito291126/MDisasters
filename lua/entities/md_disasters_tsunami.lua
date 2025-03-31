@@ -51,9 +51,9 @@ function ENT:Initialize()
 
         self:SetPos(spawnPos)
         self:SetAngles(velocity:Angle())  
-        self.Velocity = velocity * 5000  -- Reducida para evitar bugs
-        self.Force = 5000  
-        self.Radius = 10000
+        self.Velocity = velocity * GetConVar("MDisasters_tsunami_velocity"):GetInt()  -- Reducida para evitar bugs
+        self.Force = GetConVar("MDisasters_tsunami_force"):GetInt()
+        self.Radius = GetConVar("MDisasters_tsunami_radius"):GetInt()
 
         self:EmitSound("disasters/water/tsunami_loop.wav", 100, 90)  
     end
