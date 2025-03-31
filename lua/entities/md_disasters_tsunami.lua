@@ -25,32 +25,41 @@ function ENT:Initialize()
             return
         end
 
-        -- Generar en un borde aleatorio
+        -- 🏝️ Generar tsunami **fuera** de los límites del mapa
+        local spawnOffset = 500  -- 🔥 Se spawnea 500 unidades más afuera
         local spawnSide = math.random(1, 4)
         local spawnPos
         local velocity
 
         if spawnSide == 1 then
-            spawnPos = Vector(min.x + 100, (min.y + max.y) / 2, ground.z)
+            spawnPos = Vector(min.x - spawnOffset, (min.y + max.y) / 2, ground.z)
             velocity = Vector(1, 0, 0)
         elseif spawnSide == 2 then
-            spawnPos = Vector(max.x - 100, (min.y + max.y) / 2, ground.z)
+            spawnPos = Vector(max.x + spawnOffset, (min.y + max.y) / 2, ground.z)
             velocity = Vector(-1, 0, 0)
         elseif spawnSide == 3 then
-            spawnPos = Vector((min.x + max.x) / 2, min.y + 100, ground.z)
+            spawnPos = Vector((min.x + max.x) / 2, min.y - spawnOffset, ground.z)
             velocity = Vector(0, 1, 0)
         else
-            spawnPos = Vector((min.x + max.x) / 2, max.y - 100, ground.z)
+            spawnPos = Vector((min.x + max.x) / 2, max.y + spawnOffset, ground.z)
             velocity = Vector(0, -1, 0)
         end
 
-        if not util.IsInWorld(spawnPos) then
-            MDisasters:msg("Spawn en posición inválida:", spawnPos)
+        -- 🔍 **Verificar que el spawn es válido con un trace**
+        local trace = util.TraceLine({
+            start = spawnPos,
+            endpos = spawnPos + Vector(0, 0, -10000),  -- Buscar suelo
+            mask = MASK_SOLID_BRUSHONLY
+        })
+
+        if not trace.Hit or not util.IsInWorld(trace.HitPos) then
+            MDisasters:msg("Posición de spawn fuera del mundo, abortando tsunami.")
             self:Remove()
             return
         end
 
-        self:SetPos(spawnPos)
+        -- 🚀 Spawnear el tsunami en una posición válida
+        self:SetPos(trace.HitPos)  -- Ajusta la posición al suelo detectado
         self:SetAngles(velocity:Angle())
 
         self.Velocity = velocity * GetConVar("MDisasters_tsunami_velocity"):GetInt()

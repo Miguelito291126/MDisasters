@@ -12,45 +12,66 @@ end
 
 function MDisasters_getMapBounds()
     if not MDisasters_IsMapRegistered() then
-        MDisasters:error("This map has no bounds")
+        MDisasters:error("Este mapa no tiene límites registrados.")
         return nil
     end
 
-    -- Intentar obtener los límites del mundo
+    -- Obtener límites del mundo
     local minVector, maxVector = game.GetWorld():GetModelBounds()
-	MDisasters:msg("Raw Map Bounds: Min " .. tostring(minVector) .. " | Max " .. tostring(maxVector))
+    MDisasters:msg("Límites sin procesar: Min " .. tostring(minVector) .. " | Max " .. tostring(maxVector))
 
     if not minVector or not maxVector then
-        MDisasters:error("GetModelBounds() returned nil values")
+        MDisasters:error("GetModelBounds() devolvió valores nulos.")
         return nil
     end
 
-    -- Asegurar que las coordenadas no sean extremas
-    local adjustedMin = Vector(math.max(minVector.x, -16384), math.max(minVector.y, -16384), math.max(minVector.z, -16384))
-    local adjustedMax = Vector(math.min(maxVector.x, 16384), math.min(maxVector.y, 16384), math.min(maxVector.z, 16384))
+    -- Obtener el spawn del jugador
+    local spawnPos = Vector(0, 0, 0)  -- Fallback por si no hay jugadores
+    for _, ply in ipairs(player.GetAll()) do
+        if ply:IsValid() and ply:Alive() then
+            spawnPos = ply:GetPos()
+            break
+        end
+    end
 
-    -- Realizar un trace para encontrar el suelo
-    local startpos = Vector(0, 0, maxVector.z - 500)
+    MDisasters:msg("Usando spawn del jugador en: " .. tostring(spawnPos))
+
+    -- Función para hacer trazos a los límites del mundo
+    local function TraceToBounds(targetPos)
+        local traceParams = {
+            start = spawnPos,
+            endpos = targetPos,
+            mask = MASK_SOLID_BRUSHONLY
+        }
+        local traceResult = util.TraceLine(traceParams)
+        return traceResult.Hit and traceResult.HitPos or targetPos
+    end
+
+    -- Ajustar límites con trazos
+    local adjustedMin = TraceToBounds(minVector)
+    local adjustedMax = TraceToBounds(maxVector)
+
+    MDisasters:msg("Límites ajustados: Min " .. tostring(adjustedMin) .. " | Max " .. tostring(adjustedMax))
+
+    -- Trazar hacia abajo para encontrar el suelo
     local traceParams = {
-        start = startpos,
-        endpos = adjustedMin,
-        filter = function(ent) return ent:IsWorld() end
+        start = Vector(spawnPos.x, spawnPos.y, spawnPos.z),
+        endpos = Vector(spawnPos.x, spawnPos.y, minVector.z),
+        mask = MASK_SOLID_BRUSHONLY
     }
-    
     local traceResult = util.TraceLine(traceParams)
-    
-    if not traceResult.Hit or not traceResult.HitPos then
-        MDisasters:error("TraceLine() did not hit the ground")
-        return nil
+
+    if not traceResult.Hit then
+        MDisasters:error("No se pudo detectar el suelo, usando fallback.")
+        traceResult.HitPos = Vector(spawnPos.x, spawnPos.y, minVector.z)  -- Fallback
     end
 
     local groundPosition = traceResult.HitPos
-    MDisasters:msg("Ground position detected at: " .. tostring(groundPosition))
+    MDisasters:msg("Posición del suelo detectada en: " .. tostring(groundPosition))
 
     return { adjustedMin, adjustedMax, groundPosition }
 end
 
--- Obtén el techo del mapa
 function MDisasters_getMapCeiling()
     if not MDisasters_IsMapRegistered() then 
         MDisasters:error("This map has no Ceiling") 
