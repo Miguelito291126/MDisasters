@@ -25,7 +25,7 @@ local function Weather_Update()
 end
 hook.Add("Think", "Weather_Update", Weather_Update)
 
-local function MDisasters_Temperature()
+function MDisasters_Temperature()
 
     if GetConVar("MDisasters_hud_temperature_enabled"):GetBool() == false then return end
 
@@ -127,15 +127,15 @@ local function MDisasters_Temperature()
 
 end
 
-local function MDisasters_Humidity()
+function MDisasters_Humidity()
     SetGlobalVector("MDisasters_humidity", MDisasters.weather.Humidity)   
 end
 
-local function MDisasters_Pressure()
+function MDisasters_Pressure()
     SetGlobalVector("MDisasters_pressure", MDisasters.weather.Pressure)   
 end
 
-local function MDisasters_Wind()
+function MDisasters_Wind()
     local Direction = MDisasters.weather.Wind.dir
     local Force = MDisasters.weather.Wind.speed
     local windVec = Direction:GetNormalized() * Force
@@ -192,7 +192,7 @@ end
 
 local delay = 0
 
-local function MDisasters_Oxygen() 
+function MDisasters_Oxygen() 
     
     if GetConVar("MDisasters_hud_oxygen_enabled"):GetBool() == false then return end
 
