@@ -10,27 +10,29 @@ ENT.Spawnable = true
 function ENT:Initialize()
     if SERVER then
         self:SetModel("models/disasters/tsunami/tsunami.mdl")
-        self:SetMoveType(MOVETYPE_NONE)
-        self:SetSolid(SOLID_NONE)  -- No colisiona para evitar errores
+        self:SetMoveType(MOVETYPE_VPHYSICS)
+        self:SetSolid(SOLID_VPHYSICS)  -- Ahora el modelo choca de verdad
+        self:PhysicsInit(SOLID_VPHYSICS) -- Inicializa físicas
+        self:SetTrigger(true)  -- Activa detección de colisión sin bloquear el movimiento
         self:SetModelScale(100, 0)
 
         local bounds = MDisasters_getMapBounds()
         local min, max, ground = bounds[1], bounds[2], bounds[3]
 
-        -- Asegurar que los valores son válidos
         if not min or not max or not ground then
             MDisasters:msg("Error: Límites del mapa inválidos.")
             self:Remove()
             return
         end
 
+        -- Generar en un borde aleatorio
         local spawnSide = math.random(1, 4)
         local spawnPos
         local velocity
 
         if spawnSide == 1 then
-            spawnPos = Vector(min.x + 100, (min.y + max.y) / 2, ground.z)  -- Ligeramente dentro del mapa
-            velocity = Vector(1, 0, 0) 
+            spawnPos = Vector(min.x + 100, (min.y + max.y) / 2, ground.z)
+            velocity = Vector(1, 0, 0)
         elseif spawnSide == 2 then
             spawnPos = Vector(max.x - 100, (min.y + max.y) / 2, ground.z)
             velocity = Vector(-1, 0, 0)
@@ -42,7 +44,6 @@ function ENT:Initialize()
             velocity = Vector(0, -1, 0)
         end
 
-        -- Verificar si el spawn es válido
         if not util.IsInWorld(spawnPos) then
             MDisasters:msg("Spawn en posición inválida:", spawnPos)
             self:Remove()
@@ -50,47 +51,48 @@ function ENT:Initialize()
         end
 
         self:SetPos(spawnPos)
-        self:SetAngles(velocity:Angle())  
-        self.Velocity = velocity * GetConVar("MDisasters_tsunami_velocity"):GetInt()  -- Reducida para evitar bugs
-        self.Force = GetConVar("MDisasters_tsunami_force"):GetInt()
-        self.Radius = GetConVar("MDisasters_tsunami_radius"):GetInt()
+        self:SetAngles(velocity:Angle())
 
-        self:EmitSound("disasters/water/tsunami_loop.wav", 100, 90)  
+        self.Velocity = velocity * GetConVar("MDisasters_tsunami_velocity"):GetInt()
+        self.Force = GetConVar("MDisasters_tsunami_force"):GetInt()
+
+        self:EmitSound("disasters/water/tsunami_loop.wav", 100, 90)
     end
 end
 
 function ENT:Think()
     if SERVER then
         local moveVector = self.Velocity * FrameTime()
-
-        -- Validar que la posición no se vuelva loca
         local newPos = self:GetPos() + moveVector
+
         if not util.IsInWorld(newPos) then
-            MDisasters:msg("[Tsunami] Se ha salido del mundo, eliminando.")
+            MDisasters:msg("Se ha salido del mundo, eliminando.")
             self:Remove()
             return
         end
 
         self:SetPos(newPos)
-
-        for _, ent in ipairs(ents.FindInSphere(self:GetPos(), self.Radius)) do
-            if ent == self then continue end  
-
-            if ent:IsPlayer() or ent:IsNPC() then
-                ent:SetVelocity(self.Velocity:GetNormalized() * self.Force)  
-            else
-                local phys = ent:GetPhysicsObject()
-                if IsValid(phys) then
-                    phys:ApplyForceCenter(self.Velocity:GetNormalized() * self.Force * phys:GetMass())  
-                    constraint.RemoveAll(ent)
-                    phys:EnableMotion(true)
-                    phys:Wake()
-                end
-            end
-        end
-
         self:NextThink(CurTime() + 0.1)
         return true
+    end
+end
+
+-- 🔥 Cuando el tsunami toca algo, lo destruye o lo empuja
+function ENT:StartTouch(ent)
+    if ent == self then return end  -- Evita colisión consigo mismo
+
+    local pushForce = self.Velocity:GetNormalized() * self.Force
+
+    if ent:IsPlayer() or ent:IsNPC() then
+        ent:Kill()
+    else
+        local phys = ent:GetPhysicsObject()
+        if IsValid(phys) then
+            phys:ApplyForceCenter(pushForce * phys:GetMass())  
+            constraint.RemoveAll(ent)
+            phys:EnableMotion(true)
+            phys:Wake()
+        end
     end
 end
 
