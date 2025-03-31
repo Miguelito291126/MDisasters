@@ -19,7 +19,7 @@ function ENT:Initialize()
 
         -- Asegurar que los valores son válidos
         if not min or not max or not ground then
-            print("[Tsunami] Error: Límites del mapa inválidos.")
+            MDisasters:msg("Error: Límites del mapa inválidos.")
             self:Remove()
             return
         end
@@ -44,7 +44,7 @@ function ENT:Initialize()
 
         -- Verificar si el spawn es válido
         if not util.IsInWorld(spawnPos) then
-            print("[Tsunami] Spawn en posición inválida:", spawnPos)
+            MDisasters:msg("Spawn en posición inválida:", spawnPos)
             self:Remove()
             return
         end
@@ -66,7 +66,7 @@ function ENT:Think()
         -- Validar que la posición no se vuelva loca
         local newPos = self:GetPos() + moveVector
         if not util.IsInWorld(newPos) then
-            print("[Tsunami] Se ha salido del mundo, eliminando.")
+            MDisasters:msg("[Tsunami] Se ha salido del mundo, eliminando.")
             self:Remove()
             return
         end
