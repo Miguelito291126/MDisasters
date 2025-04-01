@@ -21,6 +21,7 @@ function ENT:Initialize()
         self:SetSolid(SOLID_VPHYSICS) 
         self:PhysicsInit( SOLID_VPHYSICS )
         self:SetUseType(ONOFF_USE)
+        self:SetCollisionGroup(COLLISION_GROUP_IN_VEHICLE)
         self:SetTrigger(true)
         self:SetModelScale(100, 0) -- 🔥 Tsunami gigante
 
