@@ -12,6 +12,7 @@ function convars()
     CreateConVar( "MDisasters_tsunami_force", "5000", {FCVAR_ARCHIVE}, "" )
     CreateConVar( "MDisasters_tsunami_velocity", "5000", {FCVAR_ARCHIVE}, "" )
     CreateConVar( "MDisasters_tsunami_radius", "10000", {FCVAR_ARCHIVE}, "" )
+    CreateConVar( "MDisasters_tsunami_offset", "0", {FCVAR_ARCHIVE}, "" )
 
 end
 

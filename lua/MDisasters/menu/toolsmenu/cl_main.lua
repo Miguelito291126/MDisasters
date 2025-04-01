@@ -105,6 +105,7 @@ local function MDisastersSettingsServer( CPanel )
 	CreateSliderConVariable(CPanel, "Tsunami Force", 0, 10000, 0, "MDisasters_tsunami_force")
 	CreateSliderConVariable(CPanel, "Tsunami Velocity", 0, 10000, 0, "MDisasters_tsunami_velocity")
 	CreateSliderConVariable(CPanel, "Tsunami Radius", 0, 10000, 0, "MDisasters_tsunami_radius")
+	CreateSliderConVariable(CPanel, "Tsunami offset", 0, 10000, 0, "MDisasters_tsunami_offset")
 end
 
 hook.Add( "AddToolMenuTabs", "MDisasters_Tab", function()

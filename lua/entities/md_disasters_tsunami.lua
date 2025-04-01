@@ -8,6 +8,10 @@ ENT.Category = "MDisasters"
 ENT.Spawnable = true
 
 function ENT:Initialize()
+    if CLIENT then
+        LocalPlayer().Sounds.tsunami = CreateLoopedSound(LocalPlayer(), "disasters/tsunami/tsunami_loop")
+        LocalPlayer().Sounds.tsunami:Play()
+    end
     if SERVER then
         self:SetModel("models/disasters/tsunami/tsunami.mdl")
         self:SetMoveType(MOVETYPE_VPHYSICS)
@@ -26,7 +30,7 @@ function ENT:Initialize()
         end
 
         -- 🏝️ Generar tsunami **fuera** de los límites del mapa
-        local spawnOffset = 500  -- 🔥 Se spawnea 500 unidades más afuera
+        local spawnOffset = GetConVar("MDisasters_tsunami_offset"):GetInt() -- 🔥 Se spawnea 500 unidades más afuera
         local spawnSide = math.random(1, 4)
         local spawnPos
         local velocity
@@ -64,8 +68,7 @@ function ENT:Initialize()
 
         self.Velocity = velocity * GetConVar("MDisasters_tsunami_velocity"):GetInt()
         self.Force = GetConVar("MDisasters_tsunami_force"):GetInt()
-
-        self:EmitSound("disasters/water/tsunami_loop.wav", 100, 90)
+        
     end
 end
 
@@ -106,5 +109,7 @@ function ENT:StartTouch(ent)
 end
 
 function ENT:OnRemove()
-    self:StopSound("disasters/water/tsunami_loop.wav")
+    if CLIENT then
+        LocalPlayer().Sounds.tsunami:Stop() 
+    end
 end
