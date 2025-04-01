@@ -25,8 +25,8 @@ function MDisasters_getMapBounds()
     local midX = (minVector.x + maxVector.x) / 2
     local midY = (minVector.y + maxVector.y) / 2
     local traceParams = {
-        start = Vector(midX, midY, maxVector.z + 100), -- Un poco más alto para evitar fallos
-        endpos = Vector(midX, midY, minVector.z - 100), -- Un poco más bajo por seguridad
+        start = Vector(midX, midY, maxVector.z), -- Un poco más alto para evitar fallos
+        endpos = Vector(midX, midY, minVector.z), -- Un poco más bajo por seguridad
         mask = MASK_SOLID_BRUSHONLY
     }
     local traceResult = util.TraceLine(traceParams)

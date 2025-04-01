@@ -15,10 +15,10 @@ function ENT:Initialize()
     if SERVER then
         self:SetModel("models/disasters/tsunami/tsunami.mdl")
         self:SetMoveType(MOVETYPE_VPHYSICS)
-        self:SetSolid(SOLID_VPHYSICS)  -- Ahora el modelo choca de verdad
+        self:SetSolid(SOLID_NONE)
         self:PhysicsInit(SOLID_VPHYSICS) -- Inicializa físicas
         self:SetTrigger(true)  -- Activa detección de colisión sin bloquear el movimiento
-        self:SetModelScale(100, 0)
+        self:SetModelScale(10, 0)
 
         local bounds = MDisasters_getMapBounds()
         local min, max, ground = bounds[1], bounds[2], bounds[3]
