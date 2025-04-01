@@ -101,7 +101,7 @@ function ENT:Think()
     end
     if (SERVER) then
         self:RainEffect()
-        self:NextThink(CurTime() +  t)
+        self:NextThink(CurTime())
         return true
     end
 end

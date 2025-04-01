@@ -99,11 +99,9 @@ function ENT:OnRemove()
 end
 
 function ENT:Think()
-    local t =  (FrameTime() / 0.1) / (66.666 / 0.1) -- tick dependant function that allows for constant think loop regardless of server tickrate
-
     if (SERVER) then
         self:SnowEffect()
-        self:NextThink(CurTime() +  t)
+        self:NextThink(CurTime())
         return true
     end
 end

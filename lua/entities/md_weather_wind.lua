@@ -33,7 +33,7 @@ function ENT:OnRemove()
 end
 
 function ENT:Think()
-    self:NextThink(CurTime() + 1)
+    self:NextThink(CurTime())
     return true
 end
 

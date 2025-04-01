@@ -36,7 +36,18 @@ function ENT:Initialize()
         pe:Fire( "Explode", "", 0 );
         pe:Fire( "Kill", "", 0.5 );
 
-        util.BlastDamage( self, self, self:GetPos(), 32, math.random( 10000, 40000 ) )
+        for k, v in pairs(ents.FindInSphere(self:GetPos(), 32)) do
+            if v:IsPlayer() or v:IsNPC() or v:IsNextBot() then
+                util.BlastDamage( self, self, self:GetPos(), 32, math.random( 10000, 40000 ) )
+                v:Ignite(3)
+            else
+                
+                util.BlastDamage( self, self, self:GetPos(), 32, math.random( 10000, 40000 ) )
+                v:Ignite(3)
+            end
+        end
+
+        
 
         ParticleEffect("lightning_strike", endPos, Angle(0, 0, 0), self)
 
