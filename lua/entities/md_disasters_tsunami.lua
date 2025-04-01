@@ -9,8 +9,8 @@ ENT.Spawnable = true
 
 function ENT:Initialize()
     if CLIENT then
-        LocalPlayer().Sounds.tsunami = CreateLoopedSound(LocalPlayer(), "disasters/tsunami/tsunami_loop")
-        LocalPlayer().Sounds.tsunami:Play()
+        LocalPlayer().MDisasters.Sounds.tsunami = CreateLoopedSound(LocalPlayer(), "disasters/tsunami/tsunami_loop")
+        LocalPlayer().MDisasters.Sounds.tsunami:Play()
     end
     if SERVER then
         self:SetModel("models/disasters/tsunami/tsunami.mdl")
@@ -90,6 +90,6 @@ end
 
 function ENT:OnRemove()
     if CLIENT then
-        LocalPlayer().Sounds.tsunami:Stop() 
+        LocalPlayer().MDisasters.Sounds.tsunami:Stop() 
     end
 end
