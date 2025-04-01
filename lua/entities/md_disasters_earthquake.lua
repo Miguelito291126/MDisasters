@@ -68,13 +68,14 @@ function ENT:DoEarthquake()
 
                 -- Aplica el empuje con offset para girar los objetos
                 local forceOffset = ent:GetPos() + VectorRand() * 10
-                phys:EnableMotion(true) 
-                phys:Wake()
                 phys:ApplyForceOffset(scaledForce, forceOffset)
 
                 -- Probabilidad mayor de romper restricciones
-                if math.random(0, 3) == 0 then  -- 25% de probabilidad
+                if math.random(1, 512) == 1 then  -- 25% de probabilidad
                     constraint.RemoveAll(ent)
+                    phys:EnableMotion(true) 
+                    phys:Wake()
+
                 end
             end
         end
@@ -84,7 +85,6 @@ end
 function ENT:Think()
     if (SERVER) then 
         self:DoEarthquake()
-        
         self:NextThink(CurTime())
         return true 
     end
