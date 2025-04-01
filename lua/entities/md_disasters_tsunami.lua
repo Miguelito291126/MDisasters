@@ -5,7 +5,7 @@ ENT.Type = "anim"
 
 ENT.PrintName = "Tsunami"
 ENT.Category = "MDisasters"
-ENT.Spawnable = true
+ENT.Spawnable = false
 
 ENT.Model = "models/disasters/tsunami/tsunami.mdl"
 
