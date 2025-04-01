@@ -25,7 +25,7 @@ function MDisasters_getMapBounds()
     local playerStart = ents.FindByClass("info_player_start")[1]
     if not playerStart then
         MDisasters:error("No se encontró un info_player_start en el mapa.")
-        return nil
+        return { minVector, maxVector, nil}
     end
 
     -- Obtener la posición de "info_player_start"
@@ -50,7 +50,7 @@ function MDisasters_getMapBounds()
     local groundPosition = traceResult.HitPos
     if not groundPosition then
         MDisasters:error("No se encontró un suelo bajo el info_player_start.") 
-        return nil 
+        return { minVector, maxVector, nil}
     end
     
     MDisasters:msg("Posición del suelo detectada en: " .. tostring(groundPosition))
