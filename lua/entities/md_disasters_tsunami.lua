@@ -17,10 +17,10 @@ function ENT:Initialize()
 
     if SERVER then
         self:SetModel( self.Model )
-        self:SetMoveType(MOVETYPE_VPHYSICS)  
-        self:SetSolid(SOLID_VPHYSICS) 
-        self:PhysicsInit( SOLID_VPHYSICS )
-        self:SetUseType(ONOFF_USE)
+		self:PhysicsInit( SOLID_VPHYSICS )
+		self:SetSolid( SOLID_VPHYSICS )
+		self:SetMoveType( MOVETYPE_VPHYSICS )
+		self:SetUseType( ONOFF_USE )
         self:SetCollisionGroup(COLLISION_GROUP_IN_VEHICLE)
         self:SetTrigger(true)
         self:SetModelScale(100, 0) -- 🔥 Tsunami gigante
@@ -74,13 +74,13 @@ function ENT:Think()
 end
 
 -- 🌊 Empuja objetos pero sin bugs
-function ENT:StartTouch(ent)
+function ENT:Touch(ent)
     if ent == self then return end  -- Evitar colisión consigo mismo
 
     local pushForce = self.Velocity:GetNormalized() * self.Force
 
     if ent:IsPlayer() or ent:IsNPC() then
-        ent:Kill()
+        ent:SetVelocity(pushForce * 0.5)
     else
         local phys = ent:GetPhysicsObject()
         if IsValid(phys) then
