@@ -14,11 +14,19 @@ function ENT:Initialize()
     end
     if SERVER then
         self:SetModel("models/disasters/tsunami/tsunami.mdl")
-        self:SetMoveType(MOVETYPE_VPHYSICS)
-        self:SetSolid(SOLID_NONE)
-        self:PhysicsInit(SOLID_VPHYSICS) -- Inicializa físicas
+		self:PhysicsInit( SOLID_VPHYSICS )
+		self:SetSolid( SOLID_VPHYSICS )
+		self:SetMoveType( MOVETYPE_VPHYSICS )
+		self:SetUseType( ONOFF_USE ) -- Asegura que la entidad colisione con el mundo y las entidades.
         self:SetTrigger(true)  -- Activa detección de colisión sin bloquear el movimiento
-        self:SetModelScale(10, 0)
+        self:SetModelScale(100, 0)
+
+        local phys = self:GetPhysicsObject()
+        if IsValid(phys) then
+            MDisasters:msg("La entidad tiene un cuerpo físico válido.")
+        else
+            MDisasters:msg("La entidad no tiene un cuerpo físico válido.")
+        end
 
         local bounds = MDisasters_getMapBounds()
         local min, max, ground = bounds[1], bounds[2], bounds[3]

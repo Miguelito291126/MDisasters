@@ -21,22 +21,44 @@ function MDisasters_getMapBounds()
         return nil
     end
 
-    -- Hacer un trace desde arriba hasta abajo en el centro del mapa
-    local midX = (minVector.x + maxVector.x) / 2
-    local midY = (minVector.y + maxVector.y) / 2
+    -- Obtener el primer "info_player_start" en el mapa
+    local playerStart = ents.FindByClass("info_player_start")[1]
+    if not playerStart then
+        MDisasters:error("No se encontró un info_player_start en el mapa.")
+        return nil
+    end
+
+    -- Obtener la posición de "info_player_start"
+    local startPos = playerStart:GetPos()
+
+    -- Ajustar endPos para asegurar que esté un poco por debajo de startPos
+    local traceDistance = 1000  -- Distancia suficientemente larga para alcanzar el suelo
+    local endPos = startPos - Vector(0, 0, traceDistance)  -- Desplazar hacia abajo
+
+    MDisasters:msg("Posición de info_player_start: " .. tostring(startPos))
+
+    -- Hacer un trace desde el "info_player_start" hacia abajo
     local traceParams = {
-        start = Vector(midX, midY, maxVector.z), -- Un poco más alto para evitar fallos
-        endpos = Vector(midX, midY, minVector.z), -- Un poco más bajo por seguridad
-        mask = MASK_SOLID_BRUSHONLY
+        start = startPos + Vector(0, 0, 10),  -- Iniciar un poco por encima de info_player_start
+        endpos = endPos,  -- Finalizar un poco por debajo
+        mask = MASK_SOLID_BRUSHONLY,
+        filter = playerStart  -- Asegurarse de que el rayo no se detenga en el info_player_start
     }
     local traceResult = util.TraceLine(traceParams)
 
-    local groundPosition = traceResult.Hit and traceResult.HitPos or Vector(midX, midY, minVector.z)
+    -- Si el trazo detecta algo, usar esa posición como el suelo
+    local groundPosition = traceResult.HitPos
+    if not groundPosition then
+        MDisasters:error("No se encontró un suelo bajo el info_player_start.") 
+        return nil 
+    end
     
     MDisasters:msg("Posición del suelo detectada en: " .. tostring(groundPosition))
 
     return { minVector, maxVector, groundPosition }
 end
+
+
 
 function MDisasters_getMapCeiling()
     if not MDisasters_IsMapRegistered() then 

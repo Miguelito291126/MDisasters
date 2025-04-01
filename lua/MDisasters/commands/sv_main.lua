@@ -11,7 +11,7 @@ function convars()
     CreateConVar( "MDisasters_volcano_time", "200", {FCVAR_ARCHIVE}, "" )
     CreateConVar( "MDisasters_tsunami_force", "5000", {FCVAR_ARCHIVE}, "" )
     CreateConVar( "MDisasters_tsunami_velocity", "5000", {FCVAR_ARCHIVE}, "" )
-    CreateConVar( "MDisasters_tsunami_offset", "0", {FCVAR_ARCHIVE}, "" )
+    CreateConVar( "MDisasters_tsunami_offset", "-1000", {FCVAR_ARCHIVE}, "" )
 
 end
 
