@@ -3,11 +3,7 @@ function MDisasters_IsMapRegistered()
     local worldEnts = ents.FindByClass("worldspawn")
     MDisasters:msg("Worldspawn entities found: " .. #worldEnts)
 
-    if #worldEnts > 0 then
-        return true
-    else 
-        return false
-    end 
+    return #worldEnts > 0
 end
 
 function MDisasters_getMapBounds()
@@ -18,58 +14,28 @@ function MDisasters_getMapBounds()
 
     -- Obtener límites del mundo
     local minVector, maxVector = game.GetWorld():GetModelBounds()
-    MDisasters:msg("Límites sin procesar: Min " .. tostring(minVector) .. " | Max " .. tostring(maxVector))
+    MDisasters:msg("Límites: Min " .. tostring(minVector) .. " | Max " .. tostring(maxVector))
 
     if not minVector or not maxVector then
         MDisasters:error("GetModelBounds() devolvió valores nulos.")
         return nil
     end
 
-    -- Obtener el spawn del jugador
-    local spawnPos = Vector(0, 0, 0)  -- Fallback por si no hay jugadores
-    for _, ply in ipairs(player.GetAll()) do
-        if ply:IsValid() and ply:Alive() then
-            spawnPos = ply:GetPos()
-            break
-        end
-    end
-
-    MDisasters:msg("Usando spawn del jugador en: " .. tostring(spawnPos))
-
-    -- Función para hacer trazos a los límites del mundo
-    local function TraceToBounds(targetPos)
-        local traceParams = {
-            start = spawnPos,
-            endpos = targetPos,
-            mask = MASK_SOLID_BRUSHONLY
-        }
-        local traceResult = util.TraceLine(traceParams)
-        return traceResult.Hit and traceResult.HitPos or targetPos
-    end
-
-    -- Ajustar límites con trazos
-    local adjustedMin = TraceToBounds(minVector)
-    local adjustedMax = TraceToBounds(maxVector)
-
-    MDisasters:msg("Límites ajustados: Min " .. tostring(adjustedMin) .. " | Max " .. tostring(adjustedMax))
-
-    -- Trazar hacia abajo para encontrar el suelo
+    -- Hacer un trace desde arriba hasta abajo en el centro del mapa
+    local midX = (minVector.x + maxVector.x) / 2
+    local midY = (minVector.y + maxVector.y) / 2
     local traceParams = {
-        start = Vector(spawnPos.x, spawnPos.y, spawnPos.z),
-        endpos = Vector(spawnPos.x, spawnPos.y, minVector.z),
+        start = Vector(midX, midY, maxVector.z + 100), -- Un poco más alto para evitar fallos
+        endpos = Vector(midX, midY, minVector.z - 100), -- Un poco más bajo por seguridad
         mask = MASK_SOLID_BRUSHONLY
     }
     local traceResult = util.TraceLine(traceParams)
 
-    if not traceResult.Hit then
-        MDisasters:error("No se pudo detectar el suelo, usando fallback.")
-        traceResult.HitPos = Vector(spawnPos.x, spawnPos.y, minVector.z)  -- Fallback
-    end
-
-    local groundPosition = traceResult.HitPos
+    local groundPosition = traceResult.Hit and traceResult.HitPos or Vector(midX, midY, minVector.z)
+    
     MDisasters:msg("Posición del suelo detectada en: " .. tostring(groundPosition))
 
-    return { adjustedMin, adjustedMax, groundPosition }
+    return { minVector, maxVector, groundPosition }
 end
 
 function MDisasters_getMapCeiling()

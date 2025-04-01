@@ -125,18 +125,24 @@ function ENT:PhysicsCollide(data, physobj)
 end
 
 function ENT:SetMeteoriteSkyPos()
-    local Zbounds = MDisasters_getMapSkyBox()[2].z
-	local startpos  = Vector(self:GetPos().x, self:GetPos().y, self:GetPos().z )
-	local endpos  = Vector(self:GetPos().x, self:GetPos().y, Zbounds)
+    local Zbounds = MDisasters_getMapSkyBox()[2].z  -- Límite superior del skybox
+    local startpos = self:GetPos()
+    local endpos = Vector(startpos.x, startpos.y, Zbounds) -- Un poco más arriba por seguridad
 
+    local tr = util.TraceLine({
+        start  = startpos,
+        endpos = endpos,
+        mask = MASK_SOLID_BRUSHONLY,
+        filter = function(ent) 
+            return not ent:IsWorld() -- Ignorar estructuras que no sean el mapa
+        end
+    })
+    MDisasters:msg(tr.HitPos)
 
-	local tr = util.TraceLine( {
-		start  = startpos,
-		endpos = endpos,
-		mask = MASK_SOLID_BRUSHONLY
-	} )
+    -- Si el trace no golpeó nada, usar la altura máxima del skybox
+    local finalPos = tr.Hit and tr.HitPos or endpos
 
-    self:SetPos(tr.HitPos)
+    self:SetPos(finalPos)
 end
 
 function ENT:Think()

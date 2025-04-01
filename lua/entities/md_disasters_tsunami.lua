@@ -48,22 +48,8 @@ function ENT:Initialize()
             spawnPos = Vector((min.x + max.x) / 2, max.y + spawnOffset, ground.z)
             velocity = Vector(0, -1, 0)
         end
-
-        -- 🔍 **Verificar que el spawn es válido con un trace**
-        local trace = util.TraceLine({
-            start = spawnPos,
-            endpos = spawnPos + Vector(0, 0, -10000),  -- Buscar suelo
-            mask = MASK_SOLID_BRUSHONLY
-        })
-
-        if not trace.Hit or not util.IsInWorld(trace.HitPos) then
-            MDisasters:msg("Posición de spawn fuera del mundo, abortando tsunami.")
-            self:Remove()
-            return
-        end
-
         -- 🚀 Spawnear el tsunami en una posición válida
-        self:SetPos(trace.HitPos)  -- Ajusta la posición al suelo detectado
+        self:SetPos(spawnPos)  -- Ajusta la posición al suelo detectado
         self:SetAngles(velocity:Angle())
 
         self.Velocity = velocity * GetConVar("MDisasters_tsunami_velocity"):GetInt()
@@ -76,12 +62,6 @@ function ENT:Think()
     if SERVER then
         local moveVector = self.Velocity * FrameTime()
         local newPos = self:GetPos() + moveVector
-
-        if not util.IsInWorld(newPos) then
-            MDisasters:msg("Se ha salido del mundo, eliminando.")
-            self:Remove()
-            return
-        end
 
         self:SetPos(newPos)
         self:NextThink(CurTime() + 0.1)
