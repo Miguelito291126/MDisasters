@@ -93,3 +93,7 @@ function ENT:OnRemove()
         LocalPlayer().MDisasters.Sounds.tsunami:Stop() 
     end
 end
+
+function ENT:Draw()
+    self:DrawModel()
+end
