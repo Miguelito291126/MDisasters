@@ -24,15 +24,14 @@ function ENT:Initialize()
         self:SetSolid(SOLID_VPHYSICS)
         self:PhysicsInit(SOLID_VPHYSICS)
         self:SetMoveType(MOVETYPE_VPHYSICS)  -- Cambia a VPHYSICS momentáneamente
+        self:SetCollisionGroup(COLLISION_GROUP_IN_VEHICLE)
+        self:SetNoDraw(true)  -- Haz visible por ahora para test
 
         local phys = self:GetPhysicsObject()
         if IsValid(phys) then
             phys:SetMass(self.Mass)
             phys:EnableMotion(false)
         end
-
-        self:SetCollisionGroup(COLLISION_GROUP_IN_VEHICLE)
-        self:SetNoDraw(true)  -- Haz visible por ahora para test
 
         local dir = VectorRand()
         dir.z = 0
@@ -52,54 +51,77 @@ function ENT:Initialize()
     end
 end
 
+AddCSLuaFile()
+
+ENT.Type = "anim"
+ENT.Base = "base_anim"
+
+ENT.PrintName = "EF1 Tornado"
+ENT.Category = "MDisasters"
+ENT.Spawnable = true
+
 function ENT:TornadoPhysics()
     local tornadoPos = self:GetPos()
-    for _, ent in ipairs(ents.GetAll()) do
+    local tornadoHeight = self.Height or 1000  -- Altura del tornado
+    local tornadoRadius = self.Radius or 500   -- Radio del tornado
+
+    -- 🔍 **Buscar entidades dentro del radio horizontal**
+    for _, ent in ipairs(ents.FindInSphere(tornadoPos, tornadoRadius)) do
         if IsValid(ent) then
-            local distSqr = ent:GetPos():DistToSqr(tornadoPos)
-            if distSqr < (self.Radius ^ 2) then
-                local distance = math.sqrt(distSqr)
+            local entPos = ent:GetPos()
 
-                -- Fracción de cercanía (1 cerca del centro, 0 en el borde)
-                local distanceFraction = 1 - (distance / self.Radius)
-                distanceFraction = math.Clamp(distanceFraction, 0, 1)
+            -- 📏 **Filtrar por altura**
+            if entPos.z < tornadoPos.z or entPos.z > (tornadoPos.z + tornadoHeight) then
+                -- 💡 Solución alternativa a `goto continue`
+                continue
+            end
 
-                -- Fuerza proporcional a cercanía al centro (decay cuadrático)
-                local forceMagnitude = self.Force * distanceFraction ^ 2
+            -- ✅ **Aplicar fuerzas**
+            local distanceFraction = 1 - (entPos:Distance(tornadoPos) / tornadoRadius)
+            distanceFraction = math.Clamp(distanceFraction, 0, 1)
 
-                -- Direcciones de fuerza (movimiento circular)
-                local direction = (tornadoPos - ent:GetPos()):GetNormalized()
-                direction.z = 0  -- Solo horizontal
-                local tangentialDir = Vector(-direction.y, direction.x, 0)
+            local forceMagnitude = self.Force * distanceFraction ^ 2
 
-                -- Aplicar fuerzas
-                local pullForce = direction * (forceMagnitude * 0.5)  -- Reducido para que no jale tan fuerte al centro
-                local circularForce = tangentialDir * (forceMagnitude * 1.2)  -- Aumentado para más giro
-                local verticalForce = Vector(0, 0, forceMagnitude * 1.5)  -- Aumentado para más altura
-                local vortexForce = Vector(-direction.y, direction.x, 0) * (forceMagnitude * 0.8)
+            -- **Direcciones de fuerza**
+            local direction = (tornadoPos - entPos):GetNormalized()
+            direction.z = 0  -- Solo horizontal
+            local tangentialDir = Vector(-direction.y, direction.x, 0)
 
-                local totalForce = pullForce + verticalForce + circularForce + vortexForce
+            -- **Aplicar fuerzas**
+            local pullForce = direction * (forceMagnitude * 0.5)  -- Succión
+            local circularForce = tangentialDir * (forceMagnitude * 1.2)  -- Giro
+            local verticalForce = Vector(0, 0, forceMagnitude * 1.5)  -- Elevación
+            local vortexForce = Vector(-direction.y, direction.x, 0) * (forceMagnitude * 0.8)  -- Movimiento circular extra
 
-                if ent:IsPlayer() or ent:IsNPC() then
-                    ent:SetVelocity(totalForce * 2)
-                else
-                    local phys = ent:GetPhysicsObject()
-                    if IsValid(phys) then
-                        phys:ApplyForceCenter(totalForce * phys:GetMass())
+            local totalForce = pullForce + verticalForce + circularForce + vortexForce
 
-                        if GetConVar("MDisasters_tornado_constraints_damage"):GetInt() == 1 then
-                            if HitChance(GetConVar("MDisasters_tornado_constraints_damage"):GetInt()) then
-                                constraint.RemoveAll(ent)
-                                phys:EnableMotion(true)
-                                phys:Wake()
-                            end
-                        end
+            if ent:IsPlayer() or ent:IsNPC() then
+                ent:SetVelocity(ent:GetVelocity() * -0.2) -- Reducir velocidad anterior
+                ent:SetVelocity(totalForce * 1.5) -- Aplicar nueva velocidad
+                -- 💡 Ajustar gravedad para mejorar efecto
+                ent:SetGravity(0.3) 
+                timer.Simple(1, function()
+                    if IsValid(ent) then ent:SetGravity(1) end
+                end)
+            else
+                local phys = ent:GetPhysicsObject()
+                if IsValid(phys) then
+                    phys:ApplyForceCenter(totalForce * phys:GetMass())
+
+
+                    if math.random(1, GetConVar("MDisasters_tornado_constraints_damage"):GetInt()) == 1 then
+                        constraint.RemoveAll(ent)
+                        phys:EnableMotion(true)
+                        phys:Wake()
                     end
+
                 end
             end
         end
     end
 end
+
+
 function ENT:BounceFromWalls(dir)
 	local selfPos = self:GetPos()
 	local traceStart = selfPos + (dir * self.Speed)
@@ -137,9 +159,9 @@ function ENT:TornadoMove()
 
     if tr.Hit then
         -- Coloca el tornado a una altura fija sobre el suelo
-        nextPos.z = tr.HitPos.z + 50  -- 50 unidades sobre el suelo
+        nextPos.z = tr.HitPos.z + 50 -- 50 unidades sobre el suelo
     else
-        nextPos.z = nextPos.z - 50  -- 50 unidades sobre el suelo
+        nextPos.z = nextPos.z - 50 -- 50 unidades sobre el suelo
     end
 
     self:SetPos(nextPos)
