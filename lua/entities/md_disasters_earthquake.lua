@@ -63,7 +63,7 @@ function ENT:DoEarthquake()
                 local forceOffset = ent:GetPos() + VectorRand() * 10
                 phys:ApplyForceOffset(scaledForce, forceOffset)
                 
-                if math.random(1, 512) == 1 then
+                if math.random(1, GetConVar("MDisasters_earthquake_constraints_damage"):GetInt()) == 1 then
                     constraint.RemoveAll(ent)
                     phys:EnableMotion(true)
                     phys:Wake()

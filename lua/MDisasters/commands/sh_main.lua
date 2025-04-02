@@ -3,7 +3,6 @@ function convars()
     CreateConVar( "MDisasters_hud_temperature_enabled", "1", {FCVAR_ARCHIVE}, "" )
     CreateConVar( "MDisasters_hud_damage_oxygen_enabled", "1", {FCVAR_ARCHIVE}, "" )
     CreateConVar( "MDisasters_hud_damage_temperature_enabled", "1", {FCVAR_ARCHIVE}, "" )
-    CreateConVar( "MDisasters_tornado_constraints_damage", "25", {FCVAR_ARCHIVE}, " " )
     
     concommand.Add("MDisasters_setwind", function(cmd, args, wind)
         local speed = wind[1]
