@@ -8,6 +8,8 @@ util.AddNetworkString("md_stopsound")
 util.AddNetworkString("md_stoploopsound")
 util.AddNetworkString("md_maplight_cl")
 util.AddNetworkString("md_ambientlight")
+util.AddNetworkString("md_PrecacheMaterials")
+util.AddNetworkString("md_VersionCheck")
 
 net.Receive( "md_clmenu_vars", function( len, pl )
 	if !pl:IsAdmin() or !pl:IsSuperAdmin() then return end
@@ -20,3 +22,4 @@ net.Receive( "md_clmenu_vars", function( len, pl )
 
 	game.ConsoleCommand( tostring( cvar ) .." ".. tostring( val ) .."\n" );
 end)
+

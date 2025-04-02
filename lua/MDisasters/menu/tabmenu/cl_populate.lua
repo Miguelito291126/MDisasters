@@ -1,22 +1,50 @@
--- Disasters
-AddMDisastersSpawn("Meteor", "md_disasters_meteor", "Disasters", true )
-AddMDisastersSpawn("Volcano", "md_disasters_volcano", "Disasters", true )
-AddMDisastersSpawn("Tornado EF1", "md_disasters_ef1_tornado", "Disasters", true )
-AddMDisastersSpawn("Earthquake", "md_disasters_earthquake", "Disasters", true )
-AddMDisastersSpawn("Lighting Strike", "md_disasters_lightning_strike", "Disasters", true )
-AddMDisastersSpawn("Tsunami", "md_disasters_tsunami", "Disasters", true )
+-- 📌 Función para registrar todas las entidades y armas en el menú de MDisasters
+function MDisasters:RegisterAllEntitiesAndWeapons()
+    local entityClasses = {}
+    local weaponClasses = {}
 
--- Weather
-AddMDisastersSpawn("Lighting Storm", "md_weather_lightning_storm", "Weather", true )
-AddMDisastersSpawn("Meteor Shower", "md_weather_meteor_shower", "Weather", true )
-AddMDisastersSpawn("Rain", "md_weather_rain", "Weather", true )
-AddMDisastersSpawn("Wind", "md_weather_wind", "Weather", true )
-AddMDisastersSpawn("Lighting Storm With Rain", "md_weather_storm", "Weather", true )
-AddMDisastersSpawn("Snow", "md_weather_snow", "Weather", true )
+    -- 📂 Buscar todas las entidades en "entities/"
+    local entityFiles, entityFolders = file.Find("entities/*", "LUA")
+    for _, fileName in ipairs(entityFiles) do
+        if fileName:StartsWith("md_disasters") then 
+            local className = fileName:gsub("%.lua$", "") -- Quitar extensión .lua
+            local displayName = className:gsub("md_", ""):gsub("_", " "):gsub("disasters", "")
 
--- Weapons
-AddMDisastersSpawn("Anemometer", "md_weapons_anemometer", "Weapons", false )
-AddMDisastersSpawn("Thermometer", "md_weapons_thermometer", "Weapons", false )
-AddMDisastersSpawn("Hygrometer", "md_weapons_hygrometer", "Weapons", false )
-AddMDisastersSpawn("barometer", "md_weapons_barometer", "Weapons", false )
-AddMDisastersSpawn("Radar", "md_weapons_radar", "Weapons", false )
+            table.insert(entityClasses, { name = displayName, class = className, category = "Disasters" })
+        elseif fileName:StartsWith("md_weather") then
+            local className = fileName:gsub("%.lua$", "") -- Quitar extensión .lua
+            local displayName = className:gsub("md_", ""):gsub("_", " "):gsub("weather", "")
+
+            table.insert(entityClasses, { name = displayName, class = className, category = "Weather" })
+        end 
+
+    end
+
+    -- 📂 Buscar todas las armas en "weapons/"
+    local weaponFiles, weaponFolders = file.Find("weapons/*", "LUA")
+    for _, fileName in ipairs(weaponFiles) do
+        if string.StartsWith(fileName, "md_weapons") then 
+            local className = fileName:gsub("%.lua$", "") -- Quitar extensión .lua
+            local displayName = className:gsub("md_", ""):gsub("_", " "):gsub("weapons", "")
+
+            table.insert(weaponClasses, { name = displayName, class = className, category = "Weapons" })
+        end
+    end
+
+    -- 🔄 Registrar entidades
+    for _, ent in ipairs(entityClasses) do
+        AddMDisastersSpawn(ent.name, ent.class, ent.category, true)
+    end
+
+    -- 🔄 Registrar armas
+    for _, wep in ipairs(weaponClasses) do
+        AddMDisastersSpawn(wep.name, wep.class, wep.category, false)
+    end
+
+    MDisasters:msg("Se han registrado automáticamente " .. #entityClasses .. " entidades y " .. #weaponClasses .. " armas en el menú.")
+end
+
+-- 📌 Ejecutar el registro en la carga del servidor
+hook.Add("Initialize", "MDisasters_AutoRegister", function()
+    MDisasters:RegisterAllEntitiesAndWeapons()
+end)
