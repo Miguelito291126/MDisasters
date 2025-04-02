@@ -209,7 +209,7 @@ hook.Add( "PopulateMDisasters_Weapons", "MDisasters_AddWeaponsContent", function
                 { 
                     nicename	= swep.PrintName or swep.Name,
                     spawnname	= swep.Class,
-                    material	= "weapon/" .. swep.Class .. ".png",
+                    material	= "weapons/" .. swep.Class .. ".png",
                     admin		= swep.AdminOnly or false
                 })
                 
