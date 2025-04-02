@@ -153,6 +153,7 @@ function ENT:TornadoMove()
     local traceData = {
         start = nextPos + Vector(0, 0, 500),     -- desde arriba
         endpos = nextPos - Vector(0, 0, 1000),   -- hasta abajo
+        mask = MASK_WATER + MASK_SOLID_BRUSHONLY,
         filter = self
     }
     local tr = util.TraceLine(traceData)
