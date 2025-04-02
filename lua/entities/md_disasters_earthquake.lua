@@ -25,12 +25,11 @@ function ENT:Initialize()
         net.Start("md_sendloopsound")
         net.WriteString("disasters/earthquake/earthquake_loop.wav")
         net.Broadcast()
-        
+
         self.ShakeIntensity = GetConVar("MDisasters_earthquake_shake_force"):GetInt()
         self.ShakeDuration = 1
         self.ShakeFreq = 5 -- frecuencia de la sacudida
         self.PushForce = GetConVar("MDisasters_earthquake_force"):GetInt()
-        self.PushForcePlayer = GetConVar("MDisasters_earthquake_player_force"):GetInt()
 
 
        
@@ -50,10 +49,10 @@ function ENT:DoEarthquake()
             -- ⚡ Empuje solo horizontal (X, Y), sin levantar en Z
             local randVec = VectorRand()
             randVec.z = 0  
-            local pushForce = randVec:GetNormalized() * self.PushForcePlayer
+            local pushForce = randVec:GetNormalized() * self.PushForce
 
             if ent:OnGround() then
-                ent:SetVelocity(pushForce)
+                ent:SetVelocity(pushForce * 2)
             end
         else
             local phys = ent:GetPhysicsObject()
