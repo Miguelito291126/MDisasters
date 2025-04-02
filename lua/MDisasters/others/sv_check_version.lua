@@ -26,4 +26,4 @@ function MDisasters:CheckForUpdates()
 end
 
 hook.Add("Initialize", "md_CheckVersion", MDisasters:CheckForUpdates())
-timer.Create("md_VersionCheckTimer", 3600, 0, MDisasters:CheckForUpdates()) -- Verifica cada hora
+timer.Create("md_VersionCheckTimer", 3600, 0, MDisasters:CheckForUpdates) -- Verifica cada hora
