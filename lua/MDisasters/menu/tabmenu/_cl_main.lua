@@ -69,19 +69,13 @@ function AddMDisastersSpawn(name, class, category, adminonly)
             Offset = 0
 		})
 	elseif category == "Weapons" then 
-		list.Set( "Weapon", class, {
-			Name = name,
-			Class = class, 
-			Category = category, 
-			AdminOnly = adminonly, 
-			Spawnable = true,
-		})
 		list.Set( "MD_Weapons", class, {
 			Name = name,
 			Class = class, 
 			Category = category, 
 			AdminOnly = adminonly,
 			Spawnable = true,
+            Offset = 0
 		})
 	end
 end
@@ -114,7 +108,7 @@ hook.Add( "PopulateMDisasters_Weather", "MDisasters_AddWeatherContent", function
                 { 
                     nicename	= ent.PrintName or ent.Name,
                     spawnname	= ent.Class,
-                    material	= "entities/" .. ent.Class .. ".png",
+                    material	= "entities/" .. ent.Class .. ".png" or ".jpg",
                     admin		= ent.AdminOnly or false
                 })
                 
@@ -160,7 +154,7 @@ hook.Add( "PopulateMDisasters_Disasters", "MDisasters_AddDisastersContent", func
                 { 
                     nicename	= ent.PrintName or ent.Name,
                     spawnname	= ent.Class,
-                    material	= "entities/" .. ent.Class .. ".png",
+                    material	= "entities/" .. ent.Class .. ".png" or ".jpg",
                     admin		= ent.AdminOnly or false
                 })
                 
@@ -209,7 +203,7 @@ hook.Add( "PopulateMDisasters_Weapons", "MDisasters_AddWeaponsContent", function
                 { 
                     nicename	= swep.PrintName or swep.Name,
                     spawnname	= swep.Class,
-                    material	= "weapons/" .. swep.Class .. ".png",
+                    material	= "weapons/" .. swep.Class .. ".png" or ".jpg",
                     admin		= swep.AdminOnly or false
                 })
                 
