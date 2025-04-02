@@ -51,7 +51,7 @@ function ENT:SpawnSnowground()
 		local min       = bounds[1]
 		local max       = bounds[2]
 
-		local startpos  = Vector(math.random(min.x,max.x), math.random(min.y,max.y), max.z )
+		local startpos  = Vector(self:GetPos(), self:GetPos(), max.z )
 		
 		local tr = util.TraceLine( {
 			start = startpos,
