@@ -25,8 +25,7 @@ function ENT:Initialize()
         net.Start("md_sendloopsound")
         net.WriteString("disasters/earthquake/earthquake_loop.wav")
         net.Broadcast()
-
-        self.Radius = GetConVar("MDisasters_earthquake_radius"):GetInt()
+        
         self.ShakeIntensity = GetConVar("MDisasters_earthquake_shake_force"):GetInt()
         self.ShakeDuration = 1
         self.ShakeFreq = 5 -- frecuencia de la sacudida
@@ -42,7 +41,7 @@ function ENT:DoEarthquake()
     local pos = self:GetPos()
 
     -- Sacude la pantalla cerca del epicentro
-    util.ScreenShake(pos, self.ShakeIntensity, self.ShakeFreq, self.ShakeDuration, self.Radius)
+    util.ScreenShake(pos, self.ShakeIntensity, self.ShakeFreq, self.ShakeDuration, math.huge)
 
     for _, ent in ipairs(ents.GetAll()) do
         local dist = pos:Distance(ent:GetPos())
@@ -58,24 +57,17 @@ function ENT:DoEarthquake()
             end
         else
             local phys = ent:GetPhysicsObject()
-            if phys:IsValid() then
+            if IsValid(phys) then
                 local randVec = VectorRand()
-                randVec.z = 0 
-
-                -- Calcula una fuerza decreciente según la distancia
-                local forceScale = math.Clamp(1 - (dist / self.Radius), 0, 1)  
-                local scaledForce = randVec * (self.PushForce * forceScale)
-
-                -- Aplica el empuje con offset para girar los objetos
+                randVec.z = 0
+                local scaledForce = randVec * self.PushForce
                 local forceOffset = ent:GetPos() + VectorRand() * 10
                 phys:ApplyForceOffset(scaledForce, forceOffset)
-
-                -- Probabilidad mayor de romper restricciones
-                if math.random(1, 512) == 1 then  -- 25% de probabilidad
+                
+                if math.random(1, 512) == 1 then
                     constraint.RemoveAll(ent)
-                    phys:EnableMotion(true) 
+                    phys:EnableMotion(true)
                     phys:Wake()
-
                 end
             end
         end
