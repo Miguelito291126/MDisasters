@@ -30,7 +30,7 @@ net.Receive("md_PrecacheMaterials", function()
 	local materials = net.ReadTable()
 	for _, mat in ipairs(materials) do
 		Material(mat) -- Forzar carga en el cliente
-		print("[MDisasters] Precaching material: " .. mat)
+		MDisasters:msg("Precaching material: " .. mat)
 	end
 end)
 

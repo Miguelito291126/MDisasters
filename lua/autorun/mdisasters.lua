@@ -1,7 +1,7 @@
 MDisasters = {}
 MDisasters.name = "MDisasters"
 MDisasters.author = "Miguelillo948"
-MDisasters.version = "0.0.4.2"
+MDisasters.version = "0.0.4.3"
 
 function MDisasters:msg(...)
     local args = {...}
@@ -175,7 +175,7 @@ MDisasters:loadDecalsFiles( ParticlesDirectory )
 
 PrecacheParticleSystem("meteor_trail")
 PrecacheParticleSystem("volcano_trail")
-PrecacheParticleSystem("tornado")
+PrecacheParticleSystem("tornado_ef1")
 PrecacheParticleSystem("volcano_explosion")
 PrecacheParticleSystem("rain_effect")
 PrecacheParticleSystem("rain_effect_ground")

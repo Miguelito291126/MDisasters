@@ -1,4 +1,7 @@
 MDisasters:
+
+Version 0.0.4.3
+
 now: tornado, meteorite, earthquake, lightning, meteor showe and lightning storm and volcano
 future: tsunami, hurricane, lightning storm with rain, tornado caregories, more types of weather and earthquake categories
 pisibility: ovnis, asteroid, zombie invasion

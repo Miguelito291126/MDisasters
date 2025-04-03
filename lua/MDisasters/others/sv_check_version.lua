@@ -1,22 +1,25 @@
-
-local CURRENT_VERSION = MDisasters.version  -- Versión actual del addon
-local VERSION_CHECK_URL = "https://steamcommunity.com/sharedfiles/filedetails/?id=3447089470&tscn=1743507822"  -- Cambia esto por tu URL real
+local VERSION_CHECK_URL = "https://raw.githubusercontent.com/Miguelito223/MDisasters/refs/heads/main/addon.txt"  -- URL del archivo con la versión
 
 function MDisasters:CheckForUpdates()
     http.Fetch(VERSION_CHECK_URL,
         function(body, len, headers, code)
             if code == 200 then
-                local latestVersion = string.match(body, CURRENT_VERSION)
-                if latestVersion ~= CURRENT_VERSION then
-                    MDisasters:msg("Nueva versión disponible: " .. latestVersion .. " (Actualmente: " .. CURRENT_VERSION .. ")")
-                    net.Start("md_VersionCheck")
-                    net.WriteString(latestVersion)
-                    net.Broadcast()
+                -- Buscar la versión en el texto usando una expresión regular
+                local latestVersion = string.match(body, "v?(%d+%.%d+%.%d+%.?%d*)")  -- Encuentra la primera secuencia de números y puntos, opcionalmente precedida por 'v'
+                if latestVersion then
+                    if latestVersion ~= CURRENT_VERSION then
+                        MDisasters:msg("Nueva versión disponible: " .. latestVersion .. " (Actualmente: " .. MDisasters.version .. ")")
+                        net.Start("md_VersionCheck")
+                        net.WriteString(latestVersion)
+                        net.Broadcast()
+                    else
+                        MDisasters:msg("MDisasters está actualizado.")
+                    end
                 else
-                    MDisasters:msg("MDisasters está actualizado.")
+                    MDisasters:error("No se pudo extraer la versión del archivo.")
                 end
             else
-                MDisasters:error("Error al comprobar la versión (Código: " .. code .. ")")
+                MDisasters:error("Error al comprobar la versión (Código HTTP: " .. code .. ")")
             end
         end,
         function(error)
@@ -25,5 +28,5 @@ function MDisasters:CheckForUpdates()
     )
 end
 
-hook.Add("Initialize", "md_CheckVersion", MDisasters:CheckForUpdates())
-timer.Create("md_VersionCheckTimer", 3600, 0, MDisasters:CheckForUpdates()) -- Verifica cada hora
+hook.Add("Initialize", "md_CheckVersion", function() MDisasters:CheckForUpdates() end)
+timer.Create("md_VersionCheckTimer", 3600, 0, function() MDisasters:CheckForUpdates() end) -- Verifica cada hora
