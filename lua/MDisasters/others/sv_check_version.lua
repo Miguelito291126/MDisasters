@@ -7,7 +7,7 @@ function MDisasters:CheckForUpdates()
                 -- Buscar la versión en el texto usando una expresión regular
                 local latestVersion = string.match(body, "v?(%d+%.%d+%.%d+%.?%d*)")  -- Encuentra la primera secuencia de números y puntos, opcionalmente precedida por 'v'
                 if latestVersion then
-                    if latestVersion ~= CURRENT_VERSION then
+                    if latestVersion ~= MDisasters.version then
                         MDisasters:msg("Nueva versión disponible: " .. latestVersion .. " (Actualmente: " .. MDisasters.version .. ")")
                         net.Start("md_VersionCheck")
                         net.WriteString(latestVersion)
