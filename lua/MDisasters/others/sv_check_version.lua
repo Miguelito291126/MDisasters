@@ -1,4 +1,4 @@
-local VERSION_CHECK_URL = "https://raw.githubusercontent.com/Miguelito223/MDisasters/refs/heads/main/addon.txt"  -- URL del archivo con la versión
+local VERSION_CHECK_URL = "https://steamcommunity.com/sharedfiles/filedetails/?id=3447089470&tscn=1743507822"  -- URL del archivo con la versión
 
 function MDisasters:CheckForUpdates()
     http.Fetch(VERSION_CHECK_URL,
