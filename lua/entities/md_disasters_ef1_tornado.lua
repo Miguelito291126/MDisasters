@@ -113,24 +113,24 @@ end
 
 
 function ENT:BounceFromWalls(dir)
-	local selfPos = self:GetPos()
-	local traceStart = selfPos + (dir * self.Speed)
-	local traceEnd = selfPos + (dir * 8 * self.Speed)
+    local selfPos = self:GetPos()
+    local traceStart = selfPos + (dir * self.Speed)
+    local traceEnd = selfPos + (dir * 8 * self.Speed)
 
-	local tr = util.TraceLine({
-		start = traceStart,
-		endpos = traceEnd,
-		mask = MASK_WATER + MASK_SOLID_BRUSHONLY
-	})
+    local tr = util.TraceLine({
+        start = traceStart,
+        endpos = traceEnd,
+        mask = MASK_WATER + MASK_SOLID_BRUSHONLY
+    })
 
-	if tr.Hit then
+    if tr.Hit then
         self.Direction = -dir
-	end
+    end
 end
 
 function ENT:TornadoMove()
     -- Cambiar la dirección de forma constante, pero con un cambio más sutil.
-    local randomAngle = Angle(0, math.random(-5, 5), 0)  -- Ángulo aleatorio más sutil
+    local randomAngle = Angle(0, math.random(-10, 10), 0)  -- Ángulo aleatorio más sutil
     self.Direction:Rotate(randomAngle)
     self.Direction:Normalize()
 
@@ -139,27 +139,31 @@ function ENT:TornadoMove()
     local currentPos = self:GetPos()
     local nextPos = currentPos + horizontalMove
 
-    -- Trazar hacia abajo desde el siguiente punto para encontrar el suelo
-    local traceData = {
-        start = nextPos + Vector(0, 0, 500),     -- desde arriba
-        endpos = nextPos - Vector(0, 0, 1000),   -- hasta abajo
+    -- Mantener el tornado en el suelo
+    local trace = util.TraceLine({
+        start = nextPos,
+        endpos = nextPos - Vector(0, 0, 100),  -- Ajustar la altura de la traza
         mask = MASK_WATER + MASK_SOLID_BRUSHONLY,
-        filter = self
-    }
-    local tr = util.TraceLine(traceData)
+        filter = function(ent)
+            return ent == self or ent:GetClass() ~= "worldspawn"
+        end
+    })
 
-    if tr.Hit then
-        -- Coloca el tornado a una altura fija sobre el suelo
-        nextPos.z = tr.HitPos.z + 50 -- 50 unidades sobre el suelo
+    if trace.Hit then
+        nextPos.z = trace.HitPos.z
+
+        -- Rebote en muros u obstáculos sólidos
+        self:BounceFromWalls(self.Direction)
+
+        self:SetPos(nextPos)
     else
-        nextPos.z = nextPos.z - 50 -- 50 unidades sobre el suelo
+        nextPos.z = currentPos.z - 50  -- Mantener el tornado a una altura constante
+        self:SetPos(nextPos)
     end
 
-    self:SetPos(nextPos)
 
-    -- Rebote en muros u obstáculos sólidos
-    self:BounceFromWalls(self.Direction)
 end
+
 
 
 function ENT:Think()
