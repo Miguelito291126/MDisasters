@@ -11,8 +11,9 @@ ENT.Model = "models/disasters/tsunami/tsunami.mdl"
 
 function ENT:Initialize()
     if CLIENT then
-        LocalPlayer().MDisasters.Sounds.tsunami = CreateLoopedSound(LocalPlayer(), "disasters/tsunami/tsunami_loop")
+        LocalPlayer().MDisasters.Sounds.tsunami = CreateLoopedSound(LocalPlayer(), "disasters/water/tsunami_loop.wav")
         LocalPlayer().MDisasters.Sounds.tsunami:Play()
+        LocalPlayer().MDisasters.Sounds.tsunami:SetSoundLevel(100)
     end
 
     if SERVER then
@@ -81,6 +82,11 @@ function ENT:Touch(ent)
 
     if ent:IsPlayer() or ent:IsNPC() then
         ent:SetVelocity(pushForce * 0.5)
+        local dmg = DamageInfo()
+        dmg:SetDamage( math.random(1,5) )
+        dmg:SetAttacker( self )
+        dmg:SetDamageType( DMG_GENERIC )
+        ent:TakeDamageInfo(dmg)
     else
         local phys = ent:GetPhysicsObject()
         if IsValid(phys) then
