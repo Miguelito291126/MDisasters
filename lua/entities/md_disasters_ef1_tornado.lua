@@ -5,7 +5,6 @@ ENT.Base 			= "base_anim"
 ENT.Spawnable = false
 ENT.AdminOnly = false
 ENT.PrintName = "EF1 Tornado"
-
 ENT.Category = "MDisasters"
 
 ENT.EnhancedFujitaScale = "EF1"

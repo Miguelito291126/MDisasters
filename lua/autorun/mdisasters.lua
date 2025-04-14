@@ -182,5 +182,4 @@ PrecacheParticleSystem("rain_effect_ground")
 PrecacheParticleSystem("snow_effect")
 PrecacheParticleSystem("lightning_strike")
 
-
 MDisasters:msg("MDisasters Loaded")
