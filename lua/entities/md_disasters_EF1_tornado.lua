@@ -51,15 +51,6 @@ function ENT:Initialize()
     end
 end
 
-AddCSLuaFile()
-
-ENT.Type = "anim"
-ENT.Base = "base_anim"
-
-ENT.PrintName = "EF1 Tornado"
-ENT.Category = "MDisasters"
-ENT.Spawnable = true
-
 function ENT:TornadoPhysics()
     local tornadoPos = self:GetPos()
     local tornadoHeight = self.Height or 1000  -- Altura del tornado

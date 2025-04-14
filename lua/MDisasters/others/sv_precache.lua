@@ -36,33 +36,28 @@ function MDisasters:PrecacheAllSounds(directory)
     end
 end
 
--- 📌 Enviar lista de materiales al cliente para precachearlos manualmente
-function MDisasters:GetAllMaterials(directory)
+function MDisasters:PrecacheAllMaterials(directory)
     local files, directories = file.Find(directory .. "*", "GAME")
-    local materials = {}
 
-    for _, mat in ipairs(files) do
-        if string.EndsWith(mat, ".vmt") then
-            table.insert(materials, string.gsub(directory .. mat, "materials/", ""))
+    for _, materials in ipairs(files) do
+        if string.EndsWith(materials, ".vmt") then
+            local materialPath = directory .. materials
+            Material(materials) -- Forzar carga en el cliente
+            MDisasters:msg("Precaching material: " .. materialPath)
         end
     end
 
     for _, dir in ipairs(directories) do
-        table.Add(materials, MDisasters:GetAllMaterials(directory .. dir .. "/"))
+        MDisasters:PrecacheAllMaterials(directory .. dir .. "/")
     end
-
-    return materials
 end
-
--- 📌 Enviar lista de materiales al cliente
-hook.Add("PlayerInitialSpawn", "SendMDisastersMaterials", function(ply)
-    local materials = MDisasters:GetAllMaterials("materials/disasters/") -- Ajusta la ruta si es necesario
-
-    net.Start("md_PrecacheMaterials")
-    net.WriteTable(materials)
-    net.Send(ply)
-end)
 
 -- 📌 Ejecutar Precache en el Servidor
 MDisasters:PrecacheAllModels("models/disasters/")  -- Ajusta según tu addon
 MDisasters:PrecacheAllSounds("sound/disasters/")  -- Ajusta según tu addon
+MDisasters:PrecacheAllSounds("sound/weather/")  -- Ajusta según tu addon
+MDisasters:PrecacheAllMaterials("materials/hd/")  -- Ajusta según tu addon
+MDisasters:PrecacheAllMaterials("materials/hd2/")  -- Ajusta según tu addon
+
+
+

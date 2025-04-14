@@ -26,13 +26,6 @@ net.Receive("md_sendsound", function()
 
 end)
 
-net.Receive("md_PrecacheMaterials", function()
-	local materials = net.ReadTable()
-	for _, mat in ipairs(materials) do
-		Material(mat) -- Forzar carga en el cliente
-		MDisasters:msg("Precaching material: " .. mat)
-	end
-end)
 
 net.Receive("md_VersionCheck", function()
 	local latestVersion = net.ReadString()
