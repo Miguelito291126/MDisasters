@@ -5,7 +5,7 @@ function MDisasters:CheckForUpdates()
         function(body, len, headers, code)
             if code == 200 then
                 -- Buscar la versión en el texto usando una expresión regular
-                local latestVersion = string.match(body, "v?(%d+%.%d+%.%d+%.?%d*)")  -- Encuentra la primera secuencia de números y puntos, opcionalmente precedida por 'v'
+                local latestVersion = string.match(body, "actual version:?%s*v?(%d+%.%d+%.%d+%.?%d*)")  -- Encuentra la primera secuencia de números y puntos, opcionalmente precedida por 'v'
                 if latestVersion then
                     if latestVersion ~= MDisasters.version then
                         MDisasters:msg("Nueva versión disponible: " .. latestVersion .. " (Actualmente: " .. MDisasters.version .. ")")
