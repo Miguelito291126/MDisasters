@@ -121,8 +121,6 @@ function IsSomethingBlockingWind(entity)
 
 	} )
 
-
-
 	return tr.Hit
 end
 
