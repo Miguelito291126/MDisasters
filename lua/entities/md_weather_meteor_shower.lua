@@ -48,4 +48,6 @@ function ENT:Think()
     end
 end
 
-function ENT:Draw() end  -- Invisible
+function ENT:Draw() 
+
+end  -- Invisible

@@ -138,6 +138,7 @@ function ENT:OnRemove()
 
     self.Sounds:Stop()
     timer.Remove("Lava_Erupt")
+    self:StopParticles()
 end
 
 function ENT:Draw()

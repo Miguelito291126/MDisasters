@@ -184,6 +184,16 @@ function ENT:OnRemove()
 end
 
 
-function ENT:Draw()
+function ENT:Draw()	
+
 	self:DrawModel()
+
+	
+	
+end
+
+function ENT:UpdateTransmitState()
+
+	return TRANSMIT_ALWAYS
+
 end

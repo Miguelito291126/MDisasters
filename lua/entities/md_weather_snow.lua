@@ -106,8 +106,3 @@ function ENT:Think()
     end
 end
 
-function ENT:UpdateTransmitState()
-
-	return TRANSMIT_ALWAYS
-
-end

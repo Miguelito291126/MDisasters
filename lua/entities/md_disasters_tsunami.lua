@@ -102,6 +102,7 @@ function ENT:OnRemove()
     if CLIENT then
         LocalPlayer().MDisasters.Sounds.tsunami:Stop() 
     end
+    self:StopParticles()
 end
 
 function ENT:Draw()

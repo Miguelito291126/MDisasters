@@ -81,6 +81,10 @@ function ENT:Think()
     end
 end
 
+function ENT:OnRemove()
+    self:StopParticles()
+end
+
 function ENT:DrawTranslucent()
     -- En caso de que quieras dibujar el modelo de la entidad
     self:Draw( STUDIO_DRAWTRANSLUCENTSUBMODELS )

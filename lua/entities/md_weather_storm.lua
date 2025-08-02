@@ -138,9 +138,3 @@ function ENT:OnRemove()
         net.Broadcast()
     end
 end
-
-function ENT:UpdateTransmitState()
-
-	return TRANSMIT_ALWAYS
-
-end

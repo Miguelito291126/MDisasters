@@ -166,7 +166,7 @@ function ENT:Think()
 end
 
 function ENT:OnRemove()
-
+    self:StopParticles()
 end
 
 function ENT:Draw()
