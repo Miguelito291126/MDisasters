@@ -179,7 +179,8 @@ function ENT:Think()
 end
 
 function ENT:OnRemove()
-    self.Sounds:Stop()
+    if self.Sounds then self.Sounds:Stop() end
+    self:StopParticles()
 end
 
 
