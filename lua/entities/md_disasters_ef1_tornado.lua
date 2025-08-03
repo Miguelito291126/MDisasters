@@ -40,6 +40,7 @@ function ENT:Initialize()
         self.Radius = GetConVar("MDisasters_tornado_radius"):GetInt() or 1000 
         self.Force = GetConVar("MDisasters_tornado_force"):GetInt() or 5000
         self.Speed = GetConVar("MDisasters_tornado_speed"):GetInt() or 10
+        self.IsTornado = true
 
         timer.Simple(GetConVar("MDisasters_tornado_time"):GetInt(), function()
             if not self:IsValid() then return end
@@ -58,6 +59,10 @@ function ENT:TornadoPhysics()
     -- 🔍 **Buscar entidades dentro del radio horizontal**
     for _, ent in ipairs(ents.FindInSphere(tornadoPos, tornadoRadius)) do
         if IsValid(ent) then
+            if ent == self or ent.IsTornado then
+                continue
+            end
+
             local entPos = ent:GetPos()
 
             -- 📏 **Filtrar por altura**
