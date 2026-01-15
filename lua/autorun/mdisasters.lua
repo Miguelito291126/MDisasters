@@ -1,7 +1,11 @@
 MDisasters = {}
 MDisasters.name = "MDisasters"
 MDisasters.author = "Miguelillo948"
-MDisasters.version = "0.0.4.4"
+MDisasters.version = "0.0.4.5"
+
+local LuaDirectory = "MDisasters"
+local ParticlesDirectory = "particles/MDisasters"
+local DecalsDirectory = "materials/decals/MDisasters"
 
 function MDisasters:msg(...)
     local args = {...}
@@ -55,7 +59,7 @@ function MDisasters:error(...)
     MsgC(prefixColor, "[MDisasters][Error] ", Color(255, 0, 0), output .. "\n")
 end
 
-local LuaDirectory = "MDisasters"
+
 
 
 function MDisasters:AddLuaFile(File, directory)
@@ -108,9 +112,6 @@ end
 
 MDisasters:LoadLuaFiles(LuaDirectory)
  
-
-local ParticlesDirectory = "particles/MDisasters"
-
 function MDisasters:AddParticlesFile( File, directory )
 	game.AddParticles(directory .. File)
     MDisasters:msg("Added File: " .. File)
@@ -135,8 +136,6 @@ end
 
 
 MDisasters:loadParticles( ParticlesDirectory )
-
-local DecalsDirectory = "materials/decals/MDisasters"
 
 function MDisasters:AddDecalsFile(Key, File, directory)
     -- Extraemos el nombre base, ignorando cualquier número al final y la extensión
@@ -171,7 +170,7 @@ function MDisasters:loadDecalsFiles(directory)
     end
 end
 
-MDisasters:loadDecalsFiles( ParticlesDirectory )
+MDisasters:loadDecalsFiles( DecalsDirectory )
 
 PrecacheParticleSystem("meteor_trail")
 PrecacheParticleSystem("volcano_trail")

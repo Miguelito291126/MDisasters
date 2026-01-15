@@ -24,11 +24,11 @@ end
 
 function ENT:OnRemove()
  	if (SERVER) then	
-       MDisasters.weather.target.Wind.dir =MDisasters.weather.original.Wind.dir 
-       MDisasters.weather.target.Wind.speed =MDisasters.weather.original.Wind.speed
-       MDisasters.weather.target.Temperature =MDisasters.weather.original.Temperature
-       MDisasters.weather.target.Humidity =MDisasters.weather.original.Humidity
-       MDisasters.weather.target.Pressure =MDisasters.weather.original.Pressure
+       MDisasters.weather.target.Wind.dir = MDisasters.weather.original.Wind.dir 
+       MDisasters.weather.target.Wind.speed = MDisasters.weather.original.Wind.speed
+       MDisasters.weather.target.Temperature = MDisasters.weather.original.Temperature
+       MDisasters.weather.target.Humidity = MDisasters.weather.original.Humidity
+       MDisasters.weather.target.Pressure = MDisasters.weather.original.Pressure
 	end
 end
 
