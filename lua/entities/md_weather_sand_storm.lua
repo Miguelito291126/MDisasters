@@ -27,8 +27,8 @@ function ENT:Initialize()
 
         self.snowProps = {}
 		self.Original_SkyData = {}
-        self.Original_SkyData["TopColor"]    = Vector(0.2, 0.2, 0.2)
-        self.Original_SkyData["BottomColor"] = Vector(0.2, 0.2, 0.2)
+        self.Original_SkyData["TopColor"]    = Vector(1.0, 0.7, 0.0)
+        self.Original_SkyData["BottomColor"] = Vector(0.73, 0.51, 0.00)
         self.Original_SkyData["DuskScale"]   = 0
 		
 

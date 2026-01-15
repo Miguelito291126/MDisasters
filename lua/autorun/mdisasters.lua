@@ -181,6 +181,7 @@ PrecacheParticleSystem("volcano_explosion")
 PrecacheParticleSystem("rain_effect")
 PrecacheParticleSystem("rain_effect_ground")
 PrecacheParticleSystem("snow_effect")
+PrecacheParticleSystem("sand_effect")
 PrecacheParticleSystem("lightning_strike")
 
 MDisasters:msg("MDisasters Loaded")
