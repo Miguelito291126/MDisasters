@@ -24,7 +24,7 @@ function ENT:Initialize()
         self:PhysicsInit(SOLID_VPHYSICS)
         self:SetMoveType(MOVETYPE_VPHYSICS)  -- Cambia a VPHYSICS momentáneamente
         self:SetCollisionGroup(COLLISION_GROUP_IN_VEHICLE)
-        self:SetNoDraw(true)  -- Haz visible por ahora para test
+        self:SetNoDraw(true)
 
         local phys = self:GetPhysicsObject()
         if IsValid(phys) then

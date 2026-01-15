@@ -4,7 +4,7 @@ ENT.Base 			= "base_anim"
 
 ENT.Spawnable = false
 ENT.AdminOnly = false
-ENT.PrintName = "volcano"
+ENT.PrintName = "Volcano"
 
 ENT.Category = "MDisasters"
 

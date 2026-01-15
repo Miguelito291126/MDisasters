@@ -1,18 +1,18 @@
 AddCSLuaFile()
 
 ENT.Base = "base_anim"
-ENT.PrintName = "Snow"
+ENT.PrintName = "Sand Storm"
 ENT.Spawnable = false
 ENT.AdminOnly = false
 ENT.Category = "MDisasters"
 
 function ENT:Initialize()
 
-    self:SpawnSnowground()
+    self:SpawnSandground()
 
     if SERVER then
         MDisasters.weather.target.Wind.dir = Vector(math.random(-1,1), math.random(-1,1), 0)
-        MDisasters.weather.target.Wind.speed = math.random(50, 100)
+        MDisasters.weather.target.Wind.speed = math.random(100, 150)
         MDisasters.weather.target.Temperature = math.random(-5, 0)
         MDisasters.weather.target.Humidity = math.random(25, 40)
         MDisasters.weather.target.Pressure = math.random(980, 990)
@@ -45,7 +45,7 @@ function ENT:Initialize()
     end
 end
 
-function ENT:SpawnSnowground() 
+function ENT:SpawnSandground() 
 	for i=0, 25 do
 		local bounds    = MDisasters_getMapSkyBox()
 		local min       = bounds[1]
@@ -59,16 +59,16 @@ function ENT:SpawnSnowground()
 			mask = MASK_SOLID_BRUSHONLY
 		} )	
 
-		util.Decal("snow", tr.HitPos + tr.HitNormal,  tr.HitPos - tr.HitNormal)
+		util.Decal("sand", tr.HitPos + tr.HitNormal,  tr.HitPos - tr.HitNormal)
 	end
 end
 
-function ENT:SnowEffect()
+function ENT:SandEffect()
     for _, ply in ipairs(player.GetAll()) do
 
         if isOutdoor(ply) then
             net.Start("md_clparticles")
-            net.WriteString("snow_effect")
+            net.WriteString("sand_effect")
             net.Send(ply)
         end
     end
@@ -100,7 +100,7 @@ end
 
 function ENT:Think()
     if (SERVER) then
-        self:SnowEffect()
+        self:SandEffect()
         self:NextThink(CurTime())
         return true
     end
