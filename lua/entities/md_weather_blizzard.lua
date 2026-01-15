@@ -12,7 +12,7 @@ function ENT:Initialize()
 
     if SERVER then
         MDisasters.weather.target.Wind.dir = Vector(math.random(-1,1), math.random(-1,1), 0)
-        MDisasters.weather.target.Wind.speed = math.random(100, 150)
+        MDisasters.weather.target.Wind.speed = math.random(50, 100)
         MDisasters.weather.target.Temperature = math.random(-5, 0)
         MDisasters.weather.target.Humidity = math.random(25, 40)
         MDisasters.weather.target.Pressure = math.random(980, 990)
