@@ -1,6 +1,6 @@
 net.Receive("md_clparticles", function()
 	local effect = net.ReadString()
-	local angle  = convert_VectorToAngle(-MDisasters.weather.Wind.dir)
+	local angle  = convert_VectorToAngle(-GetGlobalVector("MDisasters_wind_dir"))
 	ParticleEffect( effect, LocalPlayer():GetPos(), angle, nil )
 end)
 
@@ -10,7 +10,7 @@ net.Receive("md_clParticles_ground", function()
 	end
 
 	local effect = net.ReadString()
-	local angle  = convert_VectorToAngle(-MDisasters.weather.Wind.dir)
+	local angle  = convert_VectorToAngle(-GetGlobalVector("MDisasters_wind_dir"))
 	ParticleEffect( effect, LocalPlayer():GetPos(), angle, nil )
 
 end)

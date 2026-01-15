@@ -9,7 +9,7 @@ hook.Add("HUDPaint", "MDisasters_HUDPaint", function()
     local pressure = math.Clamp(GetGlobalVector("MDisasters_pressure") or 1013, 950, 1050)
     local windSpeed = math.Clamp(GetGlobalVector("MDisasters_wind_speed") or 0, 0, 200)  -- km/h
     local windDir = GetGlobalVector("MDisasters_wind_dir")
-    local windDirAngle = math.Round(math.NormalizeAngle(convert_VectorToAngle(windDir).y))   -- º
+    local windDirAngle = math.Round(math.NormalizeAngle(-convert_VectorToAngle(windDir).y))   -- º
 
     -- Jugador
     local ply = LocalPlayer()
